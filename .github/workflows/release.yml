@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "v*"
+      - 'v*'
 
 jobs:
   build:
@@ -15,11 +15,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Build
-        uses: CompeyDev/rojo-build-action@0.1.5
+      - name: RojoBuild
+        uses: SkyLightRBX/RojoBuildAction@v0.1
         with:
-          output: silk
-          type: rbxm
+          output: 'silk.rbxm'
 
       - name: Create Release
         uses: lsegal/github-release-from-changelog-action@latest
