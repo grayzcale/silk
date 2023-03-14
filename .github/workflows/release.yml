@@ -21,9 +21,9 @@ jobs:
           ./rojo build silk.project.json --output silk.rbxm
 
       - name: Create Release
-        uses: brainelectronics/changelog-based-release@v1
+        uses: taiki-e/create-gh-release-action@v1
         with:
-          prerelease: true
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get Release
         id: get_release
