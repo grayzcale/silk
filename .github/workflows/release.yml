@@ -21,9 +21,9 @@ jobs:
           ./rojo build silk.project.json --output silk.rbxm
 
       - name: Create Release
-        uses: taiki-e/create-gh-release-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$GITHUB_REF_NAME" -F CHANGELOG.md
 
       - name: Get Release
         id: get_release
