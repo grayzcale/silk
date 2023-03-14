@@ -1,7 +1,6 @@
 name: Release
 
 on:
-  workflow_dispatch:
   push:
     tags:
       - 'v*'
@@ -15,11 +14,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Rojo
+      - name: Create Build
         run: |
           wget https://github.com/rojo-rbx/rojo/releases/download/v7.2.1/rojo-7.2.1-linux.zip
           unzip rojo-7.2.1-linux.zip
-          mv rojo-7.2.1-linux/rojo .
           rojo build silk.project.json --output silk.rbxm
 
       - name: Create Release
