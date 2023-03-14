@@ -1,6 +1,9 @@
 -- SILK Framework v1.0 by @Wicked_Wlzard
 -- https://github.com/wicked-wlzard/silk
 
+--[=[
+	@class Silk
+]=]
 local silk = {}
 
 silk.__index = function(self, index)
