@@ -21,22 +21,17 @@ jobs:
           ./rojo build silk.project.json --output silk.rbxm
 
       - name: Create Release
+        id: release
         uses: lsegal/github-release-from-changelog-action@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Get release
-        id: get_release
-        uses: bruceadams/get-release@v1.3.2
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Upload Asset
         uses: actions/upload-release-asset@v1.0.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          upload_url: ${{ steps.get_release.outputs.upload_url }}
+          upload_url: ${{ steps.release.outputs.release_url }}
           asset_path: ./silk.rbxm
           asset_name: silk_rbxm
           asset_content_type: application/xml
