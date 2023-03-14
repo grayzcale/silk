@@ -18,7 +18,7 @@ jobs:
         run: |
           wget https://github.com/rojo-rbx/rojo/releases/download/v7.2.1/rojo-7.2.1-linux.zip
           unzip rojo-7.2.1-linux.zip
-          rojo build silk.project.json --output silk.rbxm
+          ./rojo build silk.project.json --output silk.rbxm
 
       - name: Create Release
         uses: lsegal/github-release-from-changelog-action@latest
