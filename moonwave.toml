@@ -1,22 +1,9 @@
-gitSourceBranch = "master"
-changelog = true
-classOrder = []
+title = 'SILK'
 
 [docusaurus]
-onBrokenLinks = "throw"
-onBrokenMarkdownLinks = "warn"
-favicon = ""
+favicon = 'favicon.png'
+tagline = 'An intuitive game development framework for Roblox that streamlines the process of creating games quickly'
 
-[navbar]
-hideableSidebar = true
-
-[footer]
-style = "dark"
-copyright = "Copyright © 2021 AuthorName. Built with Moonwave and Docusaurus"
-
-[[footer.links]]
-title = "examples"
-
-[[footer.links.items]]
-label = "example"
-href = "https://example.com/"
+[home]
+enabled = true
+includeReadme = true

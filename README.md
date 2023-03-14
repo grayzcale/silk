@@ -1,9 +1,5 @@
-<div align="center">
-  <h1>SILK</h1>
-</div>
+# SILK
 
-An intuitive and efficient game development framework for Roblox that streamlines the process of quickly creating games.
+An intuitive game development framework for Roblox that streamlines the process of creating games quickly
 
-<br>
-
-#### (Upcoming...)
+<!--moonwave-hide-before-this-line-->
