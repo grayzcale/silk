@@ -23,7 +23,7 @@ jobs:
       - name: Create Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "$GITHUB_REF_NAME" -F CHANGELOG.md
+        run: gh release create "$GITHUB_REF_NAME" -F CHANGELOG.md -p
 
       - name: Get Release
         id: get_release
@@ -38,5 +38,5 @@ jobs:
         with:
           upload_url: ${{ steps.get_release.outputs.upload_url }}
           asset_path: ./silk.rbxm
-          asset_name: silk_rbxm
+          asset_name: silk.rbxm
           asset_content_type: application/xml
