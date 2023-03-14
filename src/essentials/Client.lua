@@ -1,6 +1,9 @@
 -- SILK Framework by @Wicked_Wlzard
 -- https://github.com/wicked-wlzard/silk
 
+--[=[
+		@class Client
+]=]
 local client = { _cached = true }
 
 client.__index = function(self, index)

@@ -7,3 +7,10 @@ tagline = 'An intuitive game development framework for Roblox that streamlines t
 [home]
 enabled = true
 includeReadme = true
+
+[[classOrder]]
+classes = ['Silk']
+
+[[classOrder]]
+section = 'Packages'
+classes = ['Client']
