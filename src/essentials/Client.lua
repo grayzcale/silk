@@ -1,10 +1,11 @@
--- SILK Framework by @Wicked_Wlzard
--- https://github.com/wicked-wlzard/silk
+-- Package: Client.lua 
+-- Written for SILK Game Framework by @Wicked_Wlzard
+-- API: https://wicked-wlzard.github.io/silk/
 
 --[=[
 		@class Client
 ]=]
-local client = { _cached = true }
+local client = { __singleton = true }
 
 client.__index = function(self, index)
 	if index == 'Client' then
@@ -16,7 +17,7 @@ client.__index = function(self, index)
 end
 
 -- Client initialization method
-function client.__initialize__(silk)
+function client.__initialize(silk)
 	client.silk = silk
 	return setmetatable({
 		_client = silk.Players.LocalPlayer,

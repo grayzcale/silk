@@ -1,17 +1,18 @@
--- SILK Framework by @Wicked_Wlzard
--- https://github.com/wicked-wlzard/silk
+-- Package: Network.lua 
+-- Written for SILK Game Framework by @Wicked_Wlzard
+-- API: https://wicked-wlzard.github.io/silk/
 
-local network = { _cached = true }
+local network = { __singleton = true }
 network.__index = network
 
 -- Network initialization function
-function network.__initialize__(silk)
+function network.__initialize(silk)
 	
 	network.silk = silk
 	local self = setmetatable({}, network)
 	
 	-- Register a get-remote action on SILK
-	if silk:Server() then
+	if silk:IsServer() then
 		silk:RegisterAction('Network::GetCommunicator', function(_, ...)
 			local comm, rem = table.unpack(...)
 			return self._comms[comm].events[rem] or self._comms[comm].functions[rem]
@@ -30,7 +31,7 @@ end
 function network:GetCommunicator(comm, rem)
 	
 	-- Directly return reference to remote if called on server
-	if self.silk:Server() then
+	if self.silk:IsServer() then
 		return self._comms[comm].events[rem] or self._comms[comm].functions[rem]
 	end
 	
@@ -64,7 +65,7 @@ end
 function network:AppendCommunicators(commDirectories)
 	
 	-- Verify that the method is being called on the server
-	if not self.silk:Server() then return end
+	if not self.silk:IsServer() then return end
 	
 	self._commsContainer = self._commsContainer or self.silk.new('Folder', self.silk.ReplicatedStorage).Name('Communicators')()
 	self._comms = self._comms or {}

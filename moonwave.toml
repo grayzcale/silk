@@ -1,7 +1,9 @@
-title = 'SILK'
+title = 'SILK Game Framework'
 
 apiCategories = [
     'utility',
+    'network',
+    'initializer',
 ]
 
 [docusaurus]
@@ -21,7 +23,7 @@ section = 'SILK'
 classes = ['Silk', 'Package']
 
 [[classOrder]]
-section = 'Essential Packages'
+section = 'Included Packages'
 classes = ['Client']
 
 [[home.features]]
@@ -34,4 +36,4 @@ description = 'Ensure effective communication between scripts in a controlled ma
 
 [[home.features]]
 title = 'Modular'
-description = 'Simplified game development workflows with better organization and flexibility through a highly modular ecosystem, obtaining the ability to modify different components of the game in a non-destructive manner'
+description = 'Simplified game development workflows with better organization and flexibility through a highly modular ecosystem, obtaining the ability to modify different components of the project in a non-destructive manner'

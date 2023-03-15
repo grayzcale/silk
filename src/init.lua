@@ -1,6 +1,11 @@
--- SILK Framework v1.0 by @Wicked_Wlzard
--- https://github.com/wicked-wlzard/silk
+-- SILK Game Framework
+-- Written by: @Wicked_Wlzard
+-- https://wicked-wlzard.github.io/silk/
 
+--[=[
+		A singleton class that is shared between all scripts.
+		@class Silk
+]=]
 local silk = {}
 
 silk.__index = function(self, index)
@@ -33,10 +38,10 @@ silk.__initialize = function()
 		self._services[service] = 0
 	end
 
-	self._server = self.RunService:IsServer()
+	self._isServer = self.RunService:IsServer()
 
 	-- Handle server-sided initialization
-	if self:Server() then
+	if self:IsServer() then
 
 		-- Create a new action to provide initalization data to client
 		self._networkActions.initializeClient = function()
@@ -90,114 +95,53 @@ silk.__initialize = function()
 	return self
 end
 
---[=[
-		@within Silk
-		@yields
-		@tag utility
-		@param timeout?
-
-		```lua
-		silk.waitFor({workspace, 'Baseplate' }, 10)
-		```
-
-		This is a custom wrapper function for the `.WaitForChild` method. Use this utility function to simplify your code and avoid long chains of `.WaitForChild` calls.
-
-		```lua		
-		-- simplify this
-		A:WaitForChild('B'):WaitForChild('C'):WaitForChild('D')
-
-		-- to this
-		silk.waitFor{ A, 'B', 'C', 'D' }
-		```
-]=]
-function silk.waitFor(objects: table, timeout: number): Instance
-	for _, object in ipairs(objects) do
-		if typeof(objects) == 'table' then
-			objects = objects[1]
-			continue
-		end
-		objects = objects:WaitForChild(object, timeout)
-	end
-	return objects
-end
-
---[=[
-		@within Silk
-		@tag utility
-	
-		This utility function returns a reference to the primary [Silk] object. You can use it to easily access the contents of the modulescript, for instance, when appending *essential* packages to the framework.
+--[=[	
+		This utility function returns a reference to the main SILK [ModuleScript]. You can use it to easily access the contents of the script. For instance, when adding in *essential* packages to the framework.
 		
+		##### Adding essential packages:
 		```lua
+		-- || initializer.server.lua ||
+
 		silk:AppendPackages{
-			silk.getScript():WaitForChild('essentials')
+
+			-- Directly access children of the Silk script
+			silk.getScript():WaitForChild('essentials'),
 		}
 		```
+
+		@within Silk
+		@tag utility
 ]=]
-function silk.getScript(): Script
+function silk.getScript(): ModuleScript
 	return script
 end
 
 --[=[
+		Built-in implementation of a method-chainable object instantiator. Call itself at the end of the chain to return [Instance].
+
+		:::danger important
+		Do not forget to call itself after instantiation to return [Instance] (if needed).
+		:::
+		
+		##### Creating a new object:
+		```lua
+		local part = silk.new('Part', workspace)
+			.Name('NewPart')
+			.Anchored(true)()
+		```
+
 		@within Silk
-		Returns `true` if current execution is taking place on the server.
+		@tag utility
 ]=]
-function silk:Server(): boolean
-	return self._server
-end
-
---[=[
-		@within Silk
-		When Gets a service as `Instance` and stores reference in cache.
-]=]
-function silk:GetService(service: string): Instance
-	if typeof(self._services[service]) == 'number' then
-		self._services[service] = game:GetService(service)
-	end
-	return self._services[service]
-end
-
--- Yield until framework intializer phase is completed
-function silk:Wait()
-	if self._initialized then return self end
-	self._threadsQueue = self._threadsQueue or {}
-	table.insert(self._threadsQueue, coroutine.running())
-	coroutine.yield()
-	return self
-end
-
--- Indicate the end of the intializer phase
-function silk:Weave()
-	self._initialized = true
-	if not self._threadsQueue then return end
-
-	local threads = self._threadsQueue
-	self._threadsQueue = nil
-
-	for _, thread in ipairs(threads) do
-		coroutine.resume(thread)
-	end
-end
-
--- Declare output messages/warns/errors
-function silk:Declare(callback, msg)
-	msg = string.format("\n\n  [SILK] %s\n", msg)
-	if callback == debug.traceback then
-		warn(msg)
-		return print(debug.traceback())
-	end
-	callback(msg)
-end
-
--- Built-in implementation of a method-chainable object instantiator
-function silk.new(instance, parent)
+function silk.new(object: string | Instance, parent: Instance?): self
 
 	-- Instantitate new object and set parent
-	instance = if typeof(instance) == 'string' then Instance.new(instance) else instance
-	instance.Parent = parent
+	object = if typeof(object) == 'string' then Instance.new(object) else object
+	object.Parent = parent
 
-	return setmetatable({ _instance = instance }, {
+	return setmetatable({ _instance = object }, {
 
-		-- Return instance when metatable is called
+		-- Return object Instance when metatable is called
 		__call = function(self) return self._instance end,
 
 		-- Return a function to set property
@@ -211,8 +155,141 @@ function silk.new(instance, parent)
 	})
 end
 
--- Append packages to the framework
-function silk:AppendPackages(packageDirectories)
+--[=[
+		This is a custom wrapper function for the `.WaitForChild` method. Use this utility function to simplify your code and avoid redundant chains of consequtive `.WaitForChild` calls.
+		
+		##### Usage example:
+		```lua		
+		-- Long, consequtive calls of .WaitForChild...
+		A:WaitForChild('B'):WaitForChild('C'):WaitForChild('D')
+
+		-- ...can be simplied to this
+		silk.waitFor{ A, 'B', 'C', 'D' }
+		```
+
+		@within Silk
+		@yields
+		@tag utility
+]=]
+function silk.waitFor(objects: table, timeout: number?): Instance
+	for _, object in ipairs(objects) do
+		if typeof(objects) == 'table' then
+			objects = objects[1]
+			continue
+		end
+		objects = objects:WaitForChild(object, timeout)
+	end
+	return objects
+end
+
+--[=[
+		@within Silk
+		@tag network
+]=]
+function silk:FireAllClients(...: any): nil
+	self._eventRemote:FireAllClients(...)
+end
+
+--[=[
+		@within Silk
+		@tag network
+]=]
+function silk:FireClient(...: any): nil
+	self._eventRemote:FireClient(...)
+end
+
+--[=[
+		@within Silk
+		@tag network
+]=]
+function silk:FireServer(...: any): nil
+	self._eventRemote:FireServer(...)
+end
+
+--[=[
+		@within Silk
+		@tag network
+]=]
+function silk:InvokeServer(...: any): ...any
+	return self._networkRemote:InvokeServer(...)
+end
+
+--[=[
+		Register an action to the server to quickly handle commuincation between server and client.
+
+		:::tip
+		Use this method in packages that require server and client communication for initialization.
+		:::
+
+		@within Silk
+		@tag network
+]=]
+function silk:RegisterAction(action: string, callback: ((...any) -> ...any))
+	self._networkActions[action] = callback
+end
+
+--[=[
+		Remove an existing action from the server.
+		@within Silk
+		@tag network
+]=]
+function silk:UnregisterAction(action: string): nil
+	self._networkActions[action] = nil
+end
+
+--[=[
+		Use this method to supply class directories to the framework.
+		@within Silk
+		@tag initializer
+]=]
+function silk:AppendClasses(classesDirectories: table): nil
+
+	-- Classes handler
+	self.Classes = self.Classes or setmetatable({}, {
+		__index = function(_, ...)
+			return self:InitClass(...)
+		end,
+	})
+
+	-- Stop execution for client
+	if not self:IsServer() then
+		self._classes = classesDirectories
+		return
+	end
+
+	self._classes = self._classes or {}
+	for _, directory in pairs(classesDirectories) do
+		for _, class in ipairs(directory:GetChildren()) do
+			self._classes[class.Name] = class
+		end
+	end
+end
+
+--[=[
+		Use this method to supply container directories to the framework.
+		@within Silk
+		@tag initializer
+]=]
+function silk:AppendContainers(containerDirectories: table): nil
+
+	-- Stop execution for client
+	if not self:IsServer() then
+		self._containers = containerDirectories
+		return
+	end
+
+	self._containers = self._containers or {}
+	for container, directory in pairs(containerDirectories) do
+		self._containers[container] = directory
+	end
+end
+
+--[=[
+		Use this method to supply multiple package directories to the framework.
+		@within Silk
+		@tag initializer
+]=]
+function silk:AppendPackages(packageDirectories: table): nil
 
 	-- Packages handler
 	self.Packages = self.Packages or setmetatable({}, {
@@ -234,8 +311,64 @@ function silk:AppendPackages(packageDirectories)
 
 end
 
--- Return package from framework
-function silk:InitPackage(package)
+--[=[
+		Used internally to indicate potential any errors and warnings to output.
+		@within Silk
+]=]
+function silk:Declare(callback: ((msg: string) -> any), msg: string): nil
+	callback(`\n\n  [SILK] {msg}\n`)
+end
+
+--[=[
+		Returns the container Instance for `container`.
+		@within Silk
+]=]
+function silk:GetContainer(container: string): Instance
+	return self._containers[container]
+end
+
+--[=[
+		Gets a Roblox service as an [Instance] and caches it internally. This method is called internally whenever a service is attempted to be retrieved via `silk.<Service>`.
+		@within Silk
+]=]
+function silk:GetService(service: string): Instance
+	if typeof(self._services[service]) == 'number' then
+		self._services[service] = game:GetService(service)
+	end
+	return self._services[service]
+end
+
+--[=[
+		This method is called internally whenever a class is referenced `silk.Classes.<Class>`. This method can be used directly to intialize any class if needed.
+		@within Silk
+]=]
+-- Initialize class
+function silk:InitClass(class: string): any
+
+	-- Make sure class exists
+	if not self._classes[class] then
+		self:Declare(error, 'Class Error: Class \"'..class..'\" does not exist')
+	end
+
+	-- Prepare and return class
+	class = require(self._classes[class])
+	if typeof(class) == 'table' and class.__initialize then
+		class = class.__initialize(self)
+	end
+
+	return class
+end
+
+--[=[
+		This method is called internally whenever a package is referenced `silk.Packages.<Package>`.
+		
+		:::tip
+		Use this method to intialize any singleton packages during the initializer phase.
+		:::
+
+		@within Silk
+]=]
+function silk:InitPackage(package: Package): any
 
 	-- Make sure package exists
 	if not self._packages[package] then
@@ -265,110 +398,80 @@ function silk:InitPackage(package)
 	return self._packages[package]
 end
 
--- Append containers to the framework
-function silk:AppendContainers(containerDirectories)
-
-	-- Stop execution for client
-	if not self:Server() then
-		self._containers = containerDirectories
-		return
-	end
-
-	self._containers = self._containers or {}
-	for container, directory in pairs(containerDirectories) do
-		self._containers[container] = directory
-	end
+--[=[
+		Returns `true` if the current execution is taking place on the server.
+		@within Silk
+]=]
+function silk:IsServer(): boolean
+	return self._isServer
 end
 
--- Get reference to a container
-function silk:GetContainer(container)
-	return self._containers[container]
+--[=[
+		Yields until the initialization phase is completed, i.e. [Silk] should be accessed this way for all scripts except the initializer scripts. See [Silk.Weave] for more information.
+		@within Silk
+		@yields
+]=]
+function silk:Wait(): Silk
+	if self._initialized then return self end
+	self._threadsQueue = self._threadsQueue or {}
+	table.insert(self._threadsQueue, coroutine.running())
+	coroutine.yield()
+	return self
 end
 
--- Append classes to the framework
-function silk:AppendClasses(classesDirectories)
+--[=[
+		Marks the end of the initialization phase and resumes execution for all scripts yielding with [Silk.Wait]. Use this method inside of a single initializer script and call this it during the end when all the initializations are completed. See below for more details.
+		
+		##### Sample initializer script
+		```lua
+		-- || initializer.server.lua ||
 
-	-- Classes handler
-	self.Classes = self.Classes or setmetatable({}, {
-		__index = function(_, ...)
-			return self:InitClass(...)
-		end,
-	})
+		local silk = require(...)
+		
+		-- Perform initializations
+		silk:AppendPackages{ ... }
+		silk:AppendContainers{ ... }
+		silk:AppendClasses{ ... }
+		silk.Packages.Network:AppendCommunicators{ ... }
+		
+		-- Finally, call Silk.Weave to resume execution for other scripts
+		silk:Weave()
+		```
 
-	-- Stop execution for client
-	if not self:Server() then
-		self._classes = classesDirectories
-		return
+		@within Silk
+]=]
+function silk:Weave(): nil
+	self._initialized = true
+	if not self._threadsQueue then return end
+
+	local threads = self._threadsQueue
+	self._threadsQueue = nil
+
+	for _, thread in ipairs(threads) do
+		coroutine.resume(thread)
 	end
-
-	self._classes = self._classes or {}
-	for _, directory in pairs(classesDirectories) do
-		for _, class in ipairs(directory:GetChildren()) do
-			self._classes[class.Name] = class
-		end
-	end
 end
-
--- Initialize class
-function silk:InitClass(class)
-
-	-- Make sure class exists
-	if not self._classes[class] then
-		self:Declare(error, 'Class Error: Class \"'..class..'\" does not exist')
-	end
-
-	-- Prepare and return class
-	class = require(self._classes[class])
-	if typeof(class) == 'table' and class.__initialize then
-		class = class.__initialize(self)
-	end
-
-	return class
-end
-
--- Insert a new network action
-function silk:RegisterAction(action, callback)
-	self._networkActions[action] = callback
-end
-
--- Remove network action
-function silk:UnregisterAction(action)
-	self._networkActions[action] = nil
-end
-
--- Wrapper methods for internal network remotes
-function silk:InvokeServer(...) return self._networkRemote:InvokeServer(...) end
-function silk:FireServer(...) self._eventRemote:FireServer(...) end
-function silk:FireClient(...) self._eventRemote:FireClient(...) end
-function silk:FireAllClients(...) self._eventRemote:FireAllClients(...) end
 
 return silk.__initialize()
 
 --[=[
-		@class Silk
-		A singleton class that is shared between all scripts running on the same server or client in the session.
-]=]
---[=[
-		@type Service Instance
-		@within Silk
-
-		Default Roblox service as an [Instance].
-
-		---
+		Roblox service as an [Instance].
 		
-		#### Getting a [Service]:
+		##### Getting a service:
 		```lua
+		-- Directly access any service from Silk
 		local replicatedStorage = silk.ReplicatedStorage
 		```
 
 		:::caution Limitation
-		You may recieve an error while trying to get some services, this is because the list of services is currently incomplete. To fix this, open the modulescript `services` and manually add it in.
+		You may recieve an error while trying to get some services, this is because the list of services is currently incomplete. To fix this, open the [ModuleScript] `services` and manually type it in.
 		:::
+
+		@type Service Instance
+		@within Silk
 ]=]
 
---[=[
-		@class Package
-		
+--[=[		
 		A Package is a normal Roblox [ModuleScript] that can return any datatype.
 
 		---
@@ -445,22 +548,23 @@ return silk.__initialize()
 		-- Initialize the package directly, executing package.__intialize if it exists
 		silk:InitPackage('Package')
 		```
+
+		@class Package
 ]=]
 --[=[
-		@prop __singleton boolean
-		@within Package
-
 		An optional meta attribute that can be included in any package. If set to true, a cached reference to the package is returned whenever the package is referenced.
 
 		:::info
 		If [Package.__initialize] is also provided, the return value recieved after calling this method is cached instead.
-		:::	
+		:::
+
+		@prop __singleton boolean
+		@within Package
 ]=]
 --[=[
+		An optional meta function that can be included in any package. The typical usecase for this is when `silk` is needed to perform futher intiailizations inside the package and to provide a simple, non-desrutive way for the package to access the main class.
 		@function __initialize
 		@param silk Silk
 		@return any
 		@within Package
-
-		An optional meta function that can be included in any package. The typical usecase for this is when `silk` is needed to perform futher intiailizations inside the package and to provide a simple, non-desrutive way for the package to access the main class.
 ]=]
