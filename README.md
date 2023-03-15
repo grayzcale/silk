@@ -2,9 +2,9 @@
   <h1>SILK Game Framework</h1>
 </div>
 
-An intuitive game development framework for Roblox that streamlines the process of creating games quickly
+An intuitive game development framework for Roblox that streamlines the process of game development
 
-- Provides a common, consistent interface between scripts to access shared data or functionality, avoiding duplication of effort and reduce the amount of code needed to accomplish a particular task, ultimately simplifying the overall process of development
+- Provides a consistent interface between scripts to access shared data or functionality, avoiding duplication of effort and reduce the amount of code needed to accomplish a particular task, ultimately simplifying the overall process of development
 
 - Ensure effective communication between scripts in a controlled manner by having a centralized point of access for data and functionality, reducing the risk of bugs, conflicts, or other inconsistencies in the codebase
 

@@ -6,7 +6,7 @@ apiCategories = [
 
 [docusaurus]
 favicon = 'favicon.png'
-tagline = 'An intuitive game development framework for Roblox that streamlines the process of creating games quickly'
+tagline = 'An intuitive game development framework for Roblox that streamlines the process of game development'
 
 [home]
 enabled = true
@@ -26,7 +26,7 @@ classes = ['Client']
 
 [[home.features]]
 title = 'Consistent'
-description = 'Provides a common, consistent interface between scripts to access shared data or functionality, avoiding duplication of effort and reduce the amount of code needed to accomplish a particular task, ultimately simplifying the overall process of development'
+description = 'Provides a consistent interface between scripts to access shared data or functionality, avoiding duplication of effort and reduce the amount of code needed to accomplish a particular task, ultimately simplifying the overall process of development'
 
 [[home.features]]
 title = 'Efficient'
