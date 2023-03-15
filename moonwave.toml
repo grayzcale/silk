@@ -1,5 +1,9 @@
 title = 'SILK'
 
+apiCategories = [
+    'utility',
+]
+
 [docusaurus]
 favicon = 'favicon.png'
 tagline = 'An intuitive game development framework for Roblox that streamlines the process of creating games quickly'
@@ -8,9 +12,14 @@ tagline = 'An intuitive game development framework for Roblox that streamlines t
 enabled = true
 includeReadme = true
 
-[[classOrder]]
-classes = ['Silk']
+[[navbar.items]]
+href = 'https://github.com/wicked-wlzard/silk/releases'
+label = 'Get SILK'
 
 [[classOrder]]
-section = 'Packages'
+section = 'SILK'
+classes = ['Silk', 'Package']
+
+[[classOrder]]
+section = 'Essential Packages'
 classes = ['Client']

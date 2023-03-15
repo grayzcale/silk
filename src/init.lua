@@ -1,30 +1,6 @@
 -- SILK Framework v1.0 by @Wicked_Wlzard
 -- https://github.com/wicked-wlzard/silk
 
---[=[
-
-	@class Silk
-	A singleton class which is shared across all the scripts in the realm.
-
-]=]
---[=[
-		@type Service Instance
-		@within Silk
-		
-		Directly access service from [Silk] to get it as an [Instance] and cache it.
-
-		```lua
-		local lighting = silk.Lighting
-		local ReplicatedStorage = silk.ReplicatedStorage
-		local service = silk.<Service>
-		```
-]=]
---[=[
-		@type Package ModuleScript
-		@within Silk
-		
-]=]
-
 local silk = {}
 
 silk.__index = function(self, index)
@@ -44,7 +20,7 @@ silk.__index = function(self, index)
 	return silk[index]
 end
 
-function silk.__initialize__()
+silk.__initialize = function()
 
 	local self = setmetatable({
 		_networkActions = {},
@@ -271,13 +247,13 @@ function silk:InitPackage(package)
 
 		local loadedPackage = require(self._packages[package])
 
-		-- Check if package is cachable and execute package __initialize__ method
+		-- Check if package is a singleton and execute package __initialize method
 		if typeof(loadedPackage) == 'table' then
-			local cache = loadedPackage._cached			
-			if loadedPackage.__initialize__ then
-				loadedPackage = loadedPackage.__initialize__(self)
+			local singleton = loadedPackage.__singleton			
+			if loadedPackage.__initialize then
+				loadedPackage = loadedPackage.__initialize(self)
 			end
-			if cache then
+			if singleton then
 				self._packages[package] = loadedPackage
 			end
 		end
@@ -343,8 +319,8 @@ function silk:InitClass(class)
 
 	-- Prepare and return class
 	class = require(self._classes[class])
-	if typeof(class) == 'table' and class.__initialize__ then
-		class = class.__initialize__(self)
+	if typeof(class) == 'table' and class.__initialize then
+		class = class.__initialize(self)
 	end
 
 	return class
@@ -366,4 +342,125 @@ function silk:FireServer(...) self._eventRemote:FireServer(...) end
 function silk:FireClient(...) self._eventRemote:FireClient(...) end
 function silk:FireAllClients(...) self._eventRemote:FireAllClients(...) end
 
-return silk.__initialize__()
+return silk.__initialize()
+
+--[=[
+		@class Silk
+		A singleton class that is shared between all scripts running on the same server or client in the session.
+]=]
+--[=[
+		@type Service Instance
+		@within Silk
+
+		Default Roblox service as an [Instance].
+
+		---
+		
+		#### Getting a [Service]:
+		```lua
+		local replicatedStorage = silk.ReplicatedStorage
+		```
+
+		:::caution Limitation
+		You may recieve an error while trying to get some services, this is because the list of services is currently incomplete. To fix this, open the modulescript `services` and manually add it in.
+		:::
+]=]
+
+--[=[
+		@class Package
+		
+		A Package is a normal Roblox [ModuleScript] that can return any datatype.
+
+		---
+
+		### Implementation
+
+		Since a Package is just a [ModuleScript], the implementation allows for flexibility for developers to create all kinds of Packages best suited to their needs. The most common implementation of a Package, however, is shown below.
+
+		##### Common implementation of a Package:
+		```lua
+		--|| Package.lua ||
+		
+		local package = {}
+		package.__index = package
+		
+		-- Optionally indicate that the package is a singleton
+		package.__singleton = true
+		
+		-- This is called whenever this package is referenced or once if the package is a singleton
+		-- Conveniently access silk to perform further intialization
+		package.__initialize = function(silk)
+
+			-- Store silk within the package for future use
+			package.silk = silk
+			
+			-- This is the value that is returned during runtime
+			-- If the package is a singleton, this return value is cached internally
+			return package
+		end
+
+		function package.new()
+			return setmetatable({}, package)
+		end
+		
+		-- If a package has package.__initialize, the method is called and that value is returned instead during runtime
+		return package
+		```
+
+		---
+
+		### Management
+		
+		All packages should be added in using the [Silk.AppendPackages] method during the *initializer phase*.
+
+		:::tip Storing Packages
+		When storing package, place them in a secure location alongside all your other packages. For example, a folder containing all your *shared* packages.
+		:::
+
+		##### Adding in packages through the initializer script:
+		```lua
+		--|| initializer.server.lua ||
+
+		silk:AppendPackages{
+
+			-- Directory that contains all the packages
+			game.ReplicatedStorage.Packages,
+		}
+		```
+
+		---
+
+		### Usage
+
+		##### Initialize and return contents of package:
+		```lua
+		-- Can be accessed immediately after a package is added
+		local package = silk.Packages.Package
+		```
+
+		Alternatively, when intialization for singleton packages is required during the initializer phase, instead of initializing the package directly using `silk.Packages.Package`, use [Silk.InitPackage].
+
+		##### Intializing a package directly:
+		```lua
+		-- Initialize the package directly, executing package.__intialize if it exists
+		silk:InitPackage('Package')
+		```
+]=]
+--[=[
+		@prop __singleton boolean
+		@within Package
+
+		An optional meta attribute that can be included in any package. If set to true, a cached reference to the package is returned whenever the package is referenced.
+
+		:::info
+		If [Package.__initialize] is also provided, the return value recieved after calling this method is cached instead.
+		:::	
+]=]
+--[=[
+		@function __initialize
+		@param silk Silk
+		@return any
+		@within Package
+
+		An optional meta function that can be included in any package. The typical usecase for this is when `silk` is needed to perform futher intiailizations inside the package and to provide a simple, non-desrutive way for the package to access the main class.
+]=]
