@@ -82,8 +82,11 @@ silk.__initialize = function()
 		self._networkRemote = self.ReplicatedStorage:WaitForChild('__network__')
 		local config = self._networkRemote:InvokeServer('initializeClient')
 
-		-- Wait for network RemoteEvent
+		-- Wait for network RemoteEvent and create new connection
 		self._eventRemote = self.ReplicatedStorage:WaitForChild('__event__')
+		self._eventRemote.OnClientEvent:Connect(function(action, ...)
+			self._networkActions[action](...)
+		end)
 
 		-- Initialize framework on client using config recieved from the server
 		self:AppendPackages(config.packageDirectories)
@@ -186,32 +189,32 @@ end
 		@within Silk
 		@tag network
 ]=]
-function silk:FireAllClients(...: any): nil
-	self._eventRemote:FireAllClients(...)
+function silk:FireAllClients(action: string, ...: any): nil
+	self._eventRemote:FireAllClients(action, ...)
 end
 
 --[=[
 		@within Silk
 		@tag network
 ]=]
-function silk:FireClient(...: any): nil
-	self._eventRemote:FireClient(...)
+function silk:FireClient(client: Player, action: string, ...: any): nil
+	self._eventRemote:FireClient(client, action, ...)
 end
 
 --[=[
 		@within Silk
 		@tag network
 ]=]
-function silk:FireServer(...: any): nil
-	self._eventRemote:FireServer(...)
+function silk:FireServer(action: string, ...: any): nil
+	self._eventRemote:FireServer(action, ...)
 end
 
 --[=[
 		@within Silk
 		@tag network
 ]=]
-function silk:InvokeServer(...: any): ...any
-	return self._networkRemote:InvokeServer(...)
+function silk:InvokeServer(action: string, ...: any): ...any
+	return self._networkRemote:InvokeServer(action, ...)
 end
 
 --[=[
@@ -224,7 +227,7 @@ end
 		@within Silk
 		@tag network
 ]=]
-function silk:RegisterAction(action: string, callback: ((...any) -> ...any))
+function silk:RegisterAction(action: string, callback: ((...any) -> ...any)): nil
 	self._networkActions[action] = callback
 end
 
@@ -420,7 +423,7 @@ function silk:Wait(): Silk
 end
 
 --[=[
-		Marks the end of the initialization phase and resumes execution for all scripts yielding with [Silk.Wait]. Use this method inside of a single initializer script and call this it during the end when all the initializations are completed. See below for more details.
+		Marks the end of the initialization phase and resumes execution for all scripts yielding with [Silk.Wait]. Use this method inside of a single initializer script and call it at the end of the phase when all the initializations are complete. See below for more details.
 		
 		##### Sample initializer script
 		```lua
@@ -434,7 +437,7 @@ end
 		silk:AppendClasses{ ... }
 		silk.Packages.Network:AppendCommunicators{ ... }
 		
-		-- Finally, call Silk.Weave to resume execution for other scripts
+		-- Finally, call Silk.Weave to mark the end of the initialization phase
 		silk:Weave()
 		```
 
@@ -455,6 +458,36 @@ end
 return silk.__initialize()
 
 --[=[
+		A container is any [Instance] (usually a [Folder]) that contains a specific collection of objects as its children. Containers can be added to the framework using [Silk.AppendContainers] during the initializer phase.
+
+		##### Adding containers:
+		```lua
+		-- || initializer.server.lua ||
+
+		silk:AppendContainers{
+
+			-- Supply a folder 'Assets' as a container with the name 'Asset'
+			Asset = silk.ReplicatedStorage:WaitForChild('Assets'),
+		}
+		```
+
+		You can access a container by executing `Silk.Get<ContainerName>(object: Instance) -> nil` as a method of the framework. See below for more details.
+
+		##### Accessing objects inside containers:
+		```lua
+		-- A container named 'Asset'
+		local asset = silk:GetAsset('Model'):Clone()
+		```
+		
+		Other container methods:
+		- [Silk.AppendContainers]
+		- [Silk.GetContainer]
+
+		@type Container Instance
+		@within Silk
+]=]
+
+--[=[
 		Roblox service as an [Instance].
 		
 		##### Getting a service:
@@ -464,7 +497,7 @@ return silk.__initialize()
 		```
 
 		:::caution Limitation
-		You may recieve an error while trying to get some services, this is because the list of services is currently incomplete. To fix this, open the [ModuleScript] `services` and manually type it in.
+		You may recieve an error while trying to get some services. This is because the service may not exist in the current list of services. To fix this, open the [ModuleScript] `services` and manually type it in.
 		:::
 
 		@type Service Instance
@@ -472,15 +505,15 @@ return silk.__initialize()
 ]=]
 
 --[=[		
-		A Package is a normal Roblox [ModuleScript] that can return any datatype.
+		A Package is a normal Roblox [ModuleScript] that can return any datatype. SILK conveniently provides a number of pre-written packages known as *essentials*. Navigate to "Included Packages" to view a complete list.
 
 		---
 
 		### Implementation
 
-		Since a Package is just a [ModuleScript], the implementation allows for flexibility for developers to create all kinds of Packages best suited to their needs. The most common implementation of a Package, however, is shown below.
+		Since a Package is just a [ModuleScript], the implementation of one gives flexibility for developers to adapt their Package best suited to their needs. The most common implementation of a Package, however, is shown below.
 
-		##### Common implementation of a Package:
+		##### Typical implementation of a Package:
 		```lua
 		--|| Package.lua ||
 		
@@ -563,6 +596,11 @@ return silk.__initialize()
 ]=]
 --[=[
 		An optional meta function that can be included in any package. The typical usecase for this is when `silk` is needed to perform futher intiailizations inside the package and to provide a simple, non-desrutive way for the package to access the main class.
+
+		:::danger yielding
+		[Package.__initialize] should be treated like a normal metamethod. Therefore, any thread yielding functions inside of the method will result in an error.
+		:::
+
 		@function __initialize
 		@param silk Silk
 		@return any

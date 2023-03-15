@@ -20,10 +20,12 @@ label = 'Get SILK'
 
 [[classOrder]]
 section = 'SILK'
+collapsed = false
 classes = ['Silk', 'Package']
 
 [[classOrder]]
 section = 'Included Packages'
+collapsed = false
 classes = ['Client']
 
 [[home.features]]
