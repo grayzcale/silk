@@ -6,7 +6,7 @@ apiCategories = [
 
 [docusaurus]
 favicon = 'favicon.png'
-tagline = 'An intuitive game development framework for Roblox that streamlines the process of game development'
+tagline = 'An intuitive game development framework for Roblox designed to simplify the process of game development'
 
 [home]
 enabled = true
