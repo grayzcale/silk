@@ -4,9 +4,13 @@ sidebar_position: 2
 
 # The SILK Lifecycle
 
-The initialization phase is initiated by a bootstrapper script which performs the necessary functions to provide packages, containers, etc. to the framework. During the uninitialized phase, any script that attempts to access the primary class singleton using `Silk.Wait` will yield until the initialization script completes execution. It's important to note that the server initialization phase takes precedence over the client initialization phase. If the client requests initialization data before the server reaches the initialized state, the client will yield until the server is ready to send data back.
+The SILK lifecycle is designed to simplify the overall control of package usage and stage execution.
 
-Configuration will only have to be supplied to the server by the developer and not twice over—to the client as well. The client essentially makes a local copy of the initialized singleton class using data returned by the server. Just like with normal server-sided scripts, client scripts begin execution immediately after the client reaches the initialized state. Additionally, all communication between client and server, including during the client initialization phase, occurs within the server intialized state. This approach gurantees that the server is always in a ready, initialized state during all communication. The framework lifecycle is designed to simplify the control of package usage and stage execution for developers.
+The initialization phase is initiated by a single bootstrapper script that is responsible for supplying the framework with any specific dependencies. Any script that attempts to retrieve and access the primary singleton class using `Silk.Wait` during the *uninitialized phase* will yield until the initialization is completed. The server initialization phase takes precedence over the client initialization phase, i.e. if the client requests initialization data before the server reaches the initialized state, the client must yield until the server is ready to provide the data.
+
+Configuration will only be provided once through the server intializer script. When the client requests data for initialization, it aims to make a seamless *local copy* of the initialized singleton class that exists on the server. In this way, when the data is recieved by the client, some information may be lost since it may not be visible to the client.
+
+Just like with normal server-sided scripts, client scripts begin execution immediately after the client reaches the initialized state. Additionally, any communication between the client and server, including during the client initialization phase, only takes place with the server in its intialized state. This approach gurantees that the server is always in a ready state whenever the client communicates.
 
 ##### Diagram of the SILK lifecycle:
 
