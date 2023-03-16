@@ -16,7 +16,7 @@ enabled = true
 
 [[navbar.items]]
 href = 'https://github.com/wicked-wlzard/silk/releases'
-label = 'Get SILK'
+label = 'Releases'
 
 [[classOrder]]
 section = 'SILK'
