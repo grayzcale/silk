@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[268],{63891:s=>{s.exports=JSON.parse('{"sourceUrl":"https://github.com/wicked-wlzard/silk/blob/master","baseUrl":"/silk/","classOrder":[{"section":"SILK","classes":["Silk","Package"]},{"section":"Included Packages","classes":["Client"]}],"apiCategories":["utility","network","initializer"]}')}}]);
