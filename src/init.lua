@@ -511,7 +511,7 @@ return silk.__initialize()
 		}
 		```
 
-		You can access a container by executing `Silk.Get<Container>(object: Instance) -> ()` as a method of the framework. See below for more details.
+		You can access a container by executing `Silk.Get<Container>(object: string) -> Instance` as a method of the framework. See below for more details.
 
 		##### Accessing objects inside containers:
 		```lua
