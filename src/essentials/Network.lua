@@ -14,7 +14,7 @@ function network.__initialize(silk)
 	-- Register a get-remote action on SILK
 	if silk:IsServer() then
 		silk:RegisterAction('Network::GetCommunicator', function(_, ...)
-			local comm, rem = table.unpack(...)
+			local comm, rem = ...
 			return self._comms[comm].events[rem] or self._comms[comm].functions[rem]
 		end)
 	end
@@ -50,18 +50,35 @@ function network:AppendCommunicators(commDirectories)
 			
 			-- Loop and store the contents of the commuincator data
 			for _, remoteType in ipairs({ 'events', 'functions' }) do
+
+				-- Make sure events and functions are supplied
+				if not commData[remoteType] then
+					continue
+				end
+
+				-- No remotes have been supplied; decalre error
+				if not commData[remoteType].remotes then
+					self.silk:Declare(error, `Network Error: Communicator "{comm}" was given {remoteType} but was not supplied with remotes`)
+				end
+
 				for _, remoteName in ipairs(commData[remoteType].remotes) do
 					local remote = self.silk.new(remoteType == 'events' and 'RemoteEvent' or 'RemoteFunction', self._commsContainer).Name('')()
 					self._comms[comm.Name][remoteType][remoteName] = remote
 				end
 			end
 			
-			-- Handle communicator actions for server
-			for eventAction, action in pairs(commData.events.actions) do
-				self._comms[comm.Name].events[eventAction].OnServerEvent:Connect(action)
+			-- Handle communicator actions for events
+			if commData.events and commData.events.actions then
+				for eventAction, action in pairs(commData.events.actions) do
+					self._comms[comm.Name].events[eventAction].OnServerEvent:Connect(action)
+				end
 			end
-			for functionAction, action in pairs(commData.functions.actions) do
-				self._comms[comm.Name].functions[functionAction].OnServerInvoke = action
+
+			-- Handle communicator actions for functions
+			if commData.functions and commData.functions.actions then
+				for functionAction, action in pairs(commData.functions.actions) do
+					self._comms[comm.Name].functions[functionAction].OnServerInvoke = action
+				end
 			end
 			
 		end
@@ -79,29 +96,30 @@ end
 		```
 
 		@within Network
-		@param communicator string
-		@param remote string
+		@param ... {communicator: string, remote: string}
 		@return NetworkRemote
 ]=]
-function network:GetCommunicator(communicator, remote)
+function network:GetCommunicator(...)
+
+	local comm, rem = table.unpack(...)
 	
 	-- Directly return reference to remote if called on server
 	if self.silk:IsServer() then
-		return self._comms[communicator].events[remote] or self._comms[communicator].functions[remote]
+		return self._comms[comm].events[rem] or self._comms[comm].functions[rem]
 	end
 	
 	-- Recieve reference to remote
-	remote = self.silk:InvokeServer('Network::GetCommunicator', communicator, remote)
+	rem = self.silk:InvokeServer('Network::GetCommunicator', comm, rem)
 	
 	-- Return-metatable for a RemoteFunction
-	if remote:IsA('RemoteFunction') then
+	if rem:IsA('RemoteFunction') then
 		return setmetatable({
 			InvokeServer = function(_, ...)
-				return remote:InvokeServer(...)
+				return rem:InvokeServer(...)
 			end,
 		}, {
 			__newindex = function(_, index, callback)
-				remote[index] = callback;
+				rem[index] = callback;
 			end,
 		})
 	end

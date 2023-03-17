@@ -70,3 +70,15 @@ return client
 
 		@class Client
 ]=]
+
+--[=[
+		Returns the [Player] object for the client. Equivalent to `game.Players.LocalPlayer`.
+		@prop Client Player
+		@within Client
+]=]
+
+--[=[
+		Returns the [PlayerGui] of the client.
+		@prop PlayerGui PlayerGui
+		@within Client
+]=]
