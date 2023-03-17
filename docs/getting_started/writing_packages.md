@@ -4,9 +4,9 @@ sidebar_position: 4
 
 # Writing Packages
 
-Writing SILK packages is as easy as writing any typical ModuleScript but with extra functionality. Like with ModuleScripts, a package is allowed to return any datatype. However, when returning a table, you can choose to include any extra metadata which will be used internally to provide extra functionality.
+Writing SILK packages is as easy as writing any typical `ModuleScript` but with extra functionality. Just like a `ModuleScript`, a package is allowed to return any datatype. However, when returning a table, you can choose to include any extra meta data which will be used internally to provide extra functionality.
 
-By default, SILK contains core packages that are crucial for any typical projects. All of these packages are documented in the API under "Included Packages."
+By default, SILK contains core packages that contain crucial functionality for any typical projects. All of these packages are documented in the API under "Included Packages."
 
 ---
 
@@ -23,7 +23,7 @@ local datastore = { __singleton = true }
 
 return datastore
 ```
-Before writing the necessary functions to save and load data, the package requires access to the Silk singleton class. Using the `__initialize` meta method, you can obtain access to `Silk` object and store it inside the metatable.
+Before writing the necessary functions to save and load data, the package requires access to the `Silk` object. Using the `__initialize` meta method, you can obtain access to `Silk` and store it inside the metatable.
 
 ##### Converting the package to a metatable:
 ```lua
@@ -126,10 +126,12 @@ return datastore
 
 ### Using the Package
 
-To use the package, first create a folder somewhere in your project and move the package script inside it. Append the directory of the folder inside your initializer script using `Silk.AppendPackages` and initialize the package using `Silk.InitPackage`, which will execute the `__initialize` meta method.
+To use the package, first create a `Folder` somewhere in your project and move the package script inside it. Append the directory of the folder inside your initializer script using `Silk.AppendPackages` and initialize the package using `Silk.InitPackage`, which will then execute the `__initialize` meta method.
 
 ##### Initializing the package:
 ```lua
+-- || initializer.server.lua ||
+
 local silk = require(game:GetService('ReplicatedStorage'):WaitForChild('silk'))
 
 silk:AppendPackages{
