@@ -8,7 +8,7 @@ When accessing `Silk` through other scripts, they must first yield until the cla
 
 ---
 
-### Using scripts
+### Using Scripts
 
 To start using SILK in scripts, the script must first yield until the server reaches the initialized state. To do this, execute the `Silk.Wait` method after retrieving `Silk` normally. This will ensure that the script yields until the server is in a ready state.
 

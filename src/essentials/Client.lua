@@ -2,10 +2,7 @@
 -- Written for SILK Game Framework by @Wicked_Wlzard
 -- API: https://wicked-wlzard.github.io/silk/
 
---[=[
-		@class Client
-]=]
-local client = { __singleton = true }
+local client = { __singleton = true, __domain = 'local' }
 
 client.__index = function(self, index)
 	if index == 'Client' then
@@ -16,7 +13,7 @@ client.__index = function(self, index)
 	return client[index]
 end
 
--- Client initialization method
+-- Client initialization meta method
 function client.__initialize(silk)
 	client.silk = silk
 	return setmetatable({
@@ -25,30 +22,51 @@ function client.__initialize(silk)
 	}, client)
 end
 
--- Change MouseLock keybind for the user
-function client:RebindMouseLock(keys)
+--[=[
+		Change the MouseLock keybind for the client. A complete list of all the keys can be found [here](https://create.roblox.com/docs/reference/engine/enums/KeyCode).
+		@within Client
+		@param key string
+]=]
+function client:BindMouseLock(key)
 	local shiftLockKey = self.silk.waitFor{ self._client.PlayerScripts, 'PlayerModule', 'CameraModule', 'MouseLockController', 'BoundKeys' }
 	if not shiftLockKey then
 		
-		-- Create new StringValue to represent new keybind if it does not exist
+		-- Create new StringValue to represent the new keybind if it doesn't exist
 		self.silk.new('StringValue', self._client.PlayerScripts.PlayerModule.CameraModule.MouseLockController)
 			.Name("BoundKeys")
-			.Value(keys)
+			.Value(key)
 		return
 	end
-	shiftLockKey.Value = keys
+	shiftLockKey.Value = key
 end
 
--- Perform appropriate checks and get character
-function client:GetCharacter(yield)
+--[=[
+		Performs appropriate checks to see if the client character exists and if it does, returns the character `Model`, `Humanoid`, and the `HumanoidRootPart`. Returns `nil` if the character doesn't exist and `waitFor` isn't set to `true`.
+		@within Client
+		@yields
+		@param waitFor boolean
+		@return Model, Humanoid, Part | nil
+]=]
+function client:Character(waitFor)
 	local cli = self._client
 	if cli.Character and cli.Character.Parent ~= nil then
 		return cli.Character, cli.Character:WaitForChild('Humanoid'), cli.Character:WaitForChild('HumanoidRootPart')
 	end
 	
 	-- Return if yielding for character not specified
-	if not yield then return false end
+	if not waitFor then return end
 	return cli.CharacterAdded:Wait(), cli.Character:WaitForChild('Humanoid'), cli.Character:WaitForChild('HumanoidRootPart')
 end
 
 return client
+
+--[=[
+		This package contains methods and attributes associated with the core functionality of the client.
+		
+		| Package Attribute | Value |
+		| --- | --- |
+		| __singleton | true |
+		| __domain | local |
+
+		@class Client
+]=]

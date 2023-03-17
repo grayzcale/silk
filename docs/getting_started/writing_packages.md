@@ -10,7 +10,7 @@ By default, SILK contains core packages that contain crucial functionality for a
 
 ---
 
-### Writing a Data Store Package
+### Writing A Data Store Package
 
 This section guides you through an example of writing a minimalistic data store package to save, load, and increment user data.
 
@@ -124,7 +124,7 @@ return datastore
 
 ---
 
-### Using the Package
+### Using The Package
 
 To use the package, first create a `Folder` somewhere in your project and move the package script inside it. Append the directory of the folder inside your initializer script using `Silk.AppendPackages` and initialize the package using `Silk.InitPackage`, which will then execute the `__initialize` meta method.
 

@@ -2,10 +2,6 @@
 -- Written by: @Wicked_Wlzard
 -- https://wicked-wlzard.github.io/silk/
 
---[=[
-		A singleton class that is shared between all scripts.
-		@class Silk
-]=]
 local silk = {}
 
 silk.__index = function(self, index)
@@ -107,7 +103,7 @@ end
 
 		silk:AppendPackages{
 
-			-- Directly access children of the Silk script
+			-- Directly access the children of the ModuleScript
 			silk.getScript():WaitForChild('essentials'),
 		}
 		```
@@ -122,16 +118,10 @@ end
 
 --[=[
 		Built-in implementation of a method-chainable object instantiator. Call itself at the end of the chain to return [Instance].
-
-		:::danger important
-		Do not forget to call itself after instantiation to return [Instance] (if needed).
-		:::
 		
-		##### Creating a new object:
+		##### Creating a new part:
 		```lua
-		local part = silk.new('Part', workspace)
-			.Name('NewPart')
-			.Anchored(true)()
+		local part = silk.new('Part', workspace).Name('NewPart').Anchored(true)()
 		```
 
 		@within Silk
@@ -163,7 +153,7 @@ function silk.new(object, parent)
 end
 
 --[=[
-		This is a custom wrapper function for the `.WaitForChild` method. Use this utility function to simplify your code and avoid redundant chains of consequtive `.WaitForChild` calls.
+		A custom wrapper function for the `Instance.WaitForChild` method. Use this utility function to simplify your code and avoid redundant chains of consequtive WaitForChild calls.
 		
 		##### Usage example:
 		```lua		
@@ -262,7 +252,7 @@ function silk:UnregisterAction(action)
 end
 
 --[=[
-		Use this method to supply class directories to the framework.
+		Use this method to supply multiple class directories to the framework.
 		@within Silk
 		@tag initializer
 		@param classdirectories {Folder}
@@ -291,7 +281,7 @@ function silk:AppendClasses(classdirectories)
 end
 
 --[=[
-		Use this method to supply container directories to the framework.
+		Use this method to supply multiple container directories to the framework.
 		@within Silk
 		@tag initializer
 		@param containerDirectories {[string]: Folder}
@@ -349,7 +339,7 @@ function silk:Declare(callback, msg)
 end
 
 --[=[
-		Returns the container Instance for `container`.
+		Returns the [Folder] associated with the container.
 		@within Silk
 		@param container string
 		@return Folder
@@ -382,7 +372,7 @@ function silk:InitClass(class)
 
 	-- Make sure class exists
 	if not self._classes[class] then
-		self:Declare(error, 'Class Error: Class \"'..class..'\" does not exist')
+		self:Declare(error, `Class Error: Class "{class}" does not exist`)
 	end
 
 	-- Prepare and return class
@@ -409,7 +399,7 @@ function silk:InitPackage(package)
 
 	-- Make sure package exists
 	if not self._packages[package] then
-		self:Declare(error, 'Package Error: Package \"'..package..'\" does not exist')
+		self:Declare(error, `Package Error: Package "{package}" does not exist`)
 	end
 
 	-- Verify if the package exists in cache
@@ -419,6 +409,15 @@ function silk:InitPackage(package)
 
 		-- Check if package is a singleton and execute package __initialize method
 		if typeof(loadedPackage) == 'table' then
+			
+			-- Check domain restrictions
+			local domain = loadedPackage.__domain
+			if domain then
+				if (domain == 'server' and not self:IsServer()) or (domain == 'client' and self:IsServer()) then
+					self:Declare(error, `Package Error: Access to "{package}" is restricted in this domain`)
+				end
+			end
+			
 			local singleton = loadedPackage.__singleton			
 			if loadedPackage.__initialize then
 				loadedPackage = loadedPackage.__initialize(self)
@@ -473,7 +472,7 @@ end
 		silk:AppendClasses{ ... }
 		silk.Packages.Network:AppendCommunicators{ ... }
 		
-		-- Finally, call Silk.Weave to mark the end of the initialization phase
+		-- Call Silk.Weave to end the initialization phase
 		silk:Weave()
 		```
 
@@ -494,7 +493,12 @@ end
 return silk.__initialize()
 
 --[=[
-		A container is a [Folder] that contains a specific collection of objects as its children. Containers can be added to the framework using [Silk.AppendContainers] during the initializer phase.
+		A singleton class that is shared between scripts.
+		@class Silk
+]=]
+
+--[=[
+		A `Container` is a [Folder] that contains a specific collection of objects as its children. Containers can be added to the framework using [Silk.AppendContainers] during the initializer phase.
 
 		##### Adding containers:
 		```lua
@@ -507,7 +511,7 @@ return silk.__initialize()
 		}
 		```
 
-		You can access a container by executing `Silk.Get<ContainerName>(object: Instance) -> nil` as a method of the framework. See below for more details.
+		You can access a container by executing `Silk.Get<Container>(object: Instance) -> ()` as a method of the framework. See below for more details.
 
 		##### Accessing objects inside containers:
 		```lua
@@ -544,14 +548,14 @@ return silk.__initialize()
 		A Package is a normal Roblox [ModuleScript] that can return any datatype. SILK conveniently provides a number of pre-written packages known as *essentials*. Navigate to "Included Packages" to view a complete list.
 
 		:::tip External Dependencies
-		Including external dependencies inside the framework is as easy as just dropping it in. Simply drag any [ModuleScript] dependency inside any of your folders containing all of your packages and access it like you would for a regular package.
+		Including external dependencies inside the framework is as easy as just dropping it in. Simply drag and drop any [ModuleScript] dependencies inside a folder containing the rest of your packages and access it like you would for a regular package.
 		:::
 
 		---
 
 		### Implementation
 
-		Since a Package is just a [ModuleScript], the implementation of one gives flexibility for developers to adapt their Package best suited to their needs. The most common implementation of a Package, however, is shown below.
+		Since a Package is just a [ModuleScript], the implementation of one allows for flexibility for developers to adapt the package to their needs. However, the most common implementation of a Package is shown below.
 
 		##### Typical implementation of a Package:
 		```lua
@@ -564,7 +568,7 @@ return silk.__initialize()
 		package.__singleton = true
 		
 		-- This is called whenever this package is referenced or once if the package is a singleton
-		-- Conveniently access silk to perform further intialization
+		-- Conveniently access the Silk object
 		package.__initialize = function(silk)
 
 			-- Store silk within the package for future use
@@ -579,7 +583,7 @@ return silk.__initialize()
 			return setmetatable({}, package)
 		end
 		
-		-- If a package has package.__initialize, the method is called and that value is returned instead during runtime
+		-- If a package contains package.__initialize, the method is called and the value that it returns is cached instead during runtime
 		return package
 		```
 
@@ -600,7 +604,7 @@ return silk.__initialize()
 		silk:AppendPackages{
 
 			-- Directory that contains all the packages
-			game.ReplicatedStorage.Packages,
+			silk.ReplicatedStorage:WaitForChild('Packages'),
 		}
 		```
 
@@ -610,20 +614,28 @@ return silk.__initialize()
 
 		##### Initialize and return contents of package:
 		```lua
-		-- Can be accessed immediately after a package is added
+		-- Access packages immediately after they're added
 		local package = silk.Packages.Package
 		```
 
-		Alternatively, when intialization for singleton packages is required during the initializer phase, instead of initializing the package directly using `silk.Packages.Package`, use [Silk.InitPackage].
+		Alternatively, when intialization for singleton packages is required during the initializer phase, instead of initializing the package directly using `silk.Packages.<Package>`, use [Silk.InitPackage].
 
 		##### Intializing a package directly:
 		```lua
-		-- Initialize the package directly, executing package.__intialize if it exists
+		-- Initialize the package directly
 		silk:InitPackage('Package')
 		```
 
 		@class Package
 ]=]
+
+--[=[
+		An optional meta attribute used to place domain restriction on a package. The default behaviour is `shared`. Change the attribute to `server` or `client` restrict access.
+
+		@prop __domain string
+		@within Package
+]=]
+
 --[=[
 		An optional meta attribute that can be included in any package. If set to true, a cached reference to the package is returned whenever the package is referenced.
 
@@ -634,8 +646,9 @@ return silk.__initialize()
 		@prop __singleton boolean
 		@within Package
 ]=]
+
 --[=[
-		An optional meta function that can be included in any package. The typical usecase for this is when `silk` is needed to perform futher intiailizations inside the package and to provide a simple, non-desrutive way for the package to access the main class.
+		An optional meta function that can be included in any package. This method should typically be used when further initialization (using [Silk]) is required before returning the package.
 
 		@function __initialize
 		@param silk Silk

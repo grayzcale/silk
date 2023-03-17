@@ -26,7 +26,7 @@ classes = ['Silk', 'Package']
 [[classOrder]]
 section = 'Included Packages'
 collapsed = false
-classes = ['Client']
+classes = ['Client', 'Network']
 
 [[home.features]]
 title = 'Consistent'
