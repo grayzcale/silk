@@ -4,6 +4,10 @@ sidebar_position: 1
 
 # Setting Up
 
+:::caution
+SILK Game Framework is still in its early stages. For the time being, all immediate releases are considered to be pre-release versions until the framework is ready for production with a stable release.
+:::
+
 ---
 
 ### Installation

@@ -114,8 +114,9 @@ end
 
 		@within Silk
 		@tag utility
+		@return ModuleScript
 ]=]
-function silk.getScript(): ModuleScript
+function silk.getScript()
 	return script
 end
 
@@ -135,8 +136,11 @@ end
 
 		@within Silk
 		@tag utility
+		@param object string | Instance
+		@param parent Instance?
+		@return SilkObject
 ]=]
-function silk.new(object: string | Instance, parent: Instance?): self
+function silk.new(object, parent)
 
 	-- Instantitate new object and set parent
 	object = if typeof(object) == 'string' then Instance.new(object) else object
@@ -173,8 +177,12 @@ end
 		@within Silk
 		@yields
 		@tag utility
+		@param objects {Instance, ...string}
+		@param timeout number?
+		@return Instance
+
 ]=]
-function silk.waitFor(objects: table, timeout: number?): Instance
+function silk.waitFor(objects, timeout)
 	for _, object in ipairs(objects) do
 		if typeof(objects) == 'table' then
 			objects = objects[1]
@@ -188,32 +196,42 @@ end
 --[=[
 		@within Silk
 		@tag network
+		@param action string
+		@param ... any
 ]=]
-function silk:FireAllClients(action: string, ...: any): nil
+function silk:FireAllClients(action, ...)
 	self._eventRemote:FireAllClients(action, ...)
 end
 
 --[=[
 		@within Silk
 		@tag network
+		@param client Player
+		@param action string
+		@param ... any
 ]=]
-function silk:FireClient(client: Player, action: string, ...: any): nil
+function silk:FireClient(client, action, ...)
 	self._eventRemote:FireClient(client, action, ...)
 end
 
 --[=[
 		@within Silk
 		@tag network
+		@param action string
+		@param ... any
 ]=]
-function silk:FireServer(action: string, ...: any): nil
+function silk:FireServer(action, ...)
 	self._eventRemote:FireServer(action, ...)
 end
 
 --[=[
 		@within Silk
 		@tag network
+		@param action string
+		@param ... any
+		@return ...any
 ]=]
-function silk:InvokeServer(action: string, ...: any): ...any
+function silk:InvokeServer(action, ...)
 	return self._networkRemote:InvokeServer(action, ...)
 end
 
@@ -226,8 +244,10 @@ end
 
 		@within Silk
 		@tag network
+		@param action string
+		@param callback (...any) -> ...any
 ]=]
-function silk:RegisterAction(action: string, callback: ((...any) -> ...any)): nil
+function silk:RegisterAction(action, callback)
 	self._networkActions[action] = callback
 end
 
@@ -235,8 +255,9 @@ end
 		Remove an existing action from the server.
 		@within Silk
 		@tag network
+		@param action string
 ]=]
-function silk:UnregisterAction(action: string): nil
+function silk:UnregisterAction(action)
 	self._networkActions[action] = nil
 end
 
@@ -244,8 +265,9 @@ end
 		Use this method to supply class directories to the framework.
 		@within Silk
 		@tag initializer
+		@param classdirectories {Folder}
 ]=]
-function silk:AppendClasses(classesDirectories: table): nil
+function silk:AppendClasses(classdirectories)
 
 	-- Classes handler
 	self.Classes = self.Classes or setmetatable({}, {
@@ -256,12 +278,12 @@ function silk:AppendClasses(classesDirectories: table): nil
 
 	-- Stop execution for client
 	if not self:IsServer() then
-		self._classes = classesDirectories
+		self._classes = classdirectories
 		return
 	end
 
 	self._classes = self._classes or {}
-	for _, directory in pairs(classesDirectories) do
+	for _, directory in pairs(classdirectories) do
 		for _, class in ipairs(directory:GetChildren()) do
 			self._classes[class.Name] = class
 		end
@@ -272,8 +294,9 @@ end
 		Use this method to supply container directories to the framework.
 		@within Silk
 		@tag initializer
+		@param containerDirectories {[string]: Folder}
 ]=]
-function silk:AppendContainers(containerDirectories: table): nil
+function silk:AppendContainers(containerDirectories)
 
 	-- Stop execution for client
 	if not self:IsServer() then
@@ -291,8 +314,9 @@ end
 		Use this method to supply multiple package directories to the framework.
 		@within Silk
 		@tag initializer
+		@param packageDirectories {Folder}
 ]=]
-function silk:AppendPackages(packageDirectories: table): nil
+function silk:AppendPackages(packageDirectories)
 
 	-- Packages handler
 	self.Packages = self.Packages or setmetatable({}, {
@@ -317,24 +341,30 @@ end
 --[=[
 		Used internally to indicate potential any errors and warnings to output.
 		@within Silk
+		@param callback (msg: string, ...any) -> ..any
+		@param msg string
 ]=]
-function silk:Declare(callback: ((msg: string) -> any), msg: string): nil
+function silk:Declare(callback, msg)
 	callback(`\n\n  [SILK] {msg}\n`)
 end
 
 --[=[
 		Returns the container Instance for `container`.
 		@within Silk
+		@param container string
+		@return Folder
 ]=]
-function silk:GetContainer(container: string): Instance
+function silk:GetContainer(container)
 	return self._containers[container]
 end
 
 --[=[
 		Gets a Roblox service as an [Instance] and caches it internally. This method is called internally whenever a service is attempted to be retrieved via `silk.<Service>`.
 		@within Silk
+		@param service string
+		@return Instance
 ]=]
-function silk:GetService(service: string): Instance
+function silk:GetService(service)
 	if typeof(self._services[service]) == 'number' then
 		self._services[service] = game:GetService(service)
 	end
@@ -344,9 +374,11 @@ end
 --[=[
 		This method is called internally whenever a class is referenced `silk.Classes.<Class>`. This method can be used directly to intialize any class if needed.
 		@within Silk
+		@param class string
+		@return ...any
 ]=]
 -- Initialize class
-function silk:InitClass(class: string): any
+function silk:InitClass(class)
 
 	-- Make sure class exists
 	if not self._classes[class] then
@@ -370,8 +402,10 @@ end
 		:::
 
 		@within Silk
+		@param package Package
+		@return ...any
 ]=]
-function silk:InitPackage(package: Package): any
+function silk:InitPackage(package)
 
 	-- Make sure package exists
 	if not self._packages[package] then
@@ -404,8 +438,9 @@ end
 --[=[
 		Returns `true` if the current execution is taking place on the server.
 		@within Silk
+		@return boolean
 ]=]
-function silk:IsServer(): boolean
+function silk:IsServer()
 	return self._isServer
 end
 
@@ -413,8 +448,9 @@ end
 		Yields until the initialization phase is completed, i.e. [Silk] should be accessed this way for all scripts except the initializer scripts. See [Silk.Weave] for more information.
 		@within Silk
 		@yields
+		@return Silk
 ]=]
-function silk:Wait(): Silk
+function silk:Wait()
 	if self._initialized then return self end
 	self._threadsQueue = self._threadsQueue or {}
 	table.insert(self._threadsQueue, coroutine.running())
@@ -443,7 +479,7 @@ end
 
 		@within Silk
 ]=]
-function silk:Weave(): nil
+function silk:Weave()
 	self._initialized = true
 	if not self._threadsQueue then return end
 
@@ -458,7 +494,7 @@ end
 return silk.__initialize()
 
 --[=[
-		A container is any [Instance] (usually a [Folder]) that contains a specific collection of objects as its children. Containers can be added to the framework using [Silk.AppendContainers] during the initializer phase.
+		A container is a [Folder] that contains a specific collection of objects as its children. Containers can be added to the framework using [Silk.AppendContainers] during the initializer phase.
 
 		##### Adding containers:
 		```lua
@@ -479,11 +515,11 @@ return silk.__initialize()
 		local asset = silk:GetAsset('Model'):Clone()
 		```
 		
-		Other container methods:
+		Container methods:
 		- [Silk.AppendContainers]
 		- [Silk.GetContainer]
 
-		@type Container Instance
+		@type Container Folder
 		@within Silk
 ]=]
 
@@ -506,6 +542,10 @@ return silk.__initialize()
 
 --[=[		
 		A Package is a normal Roblox [ModuleScript] that can return any datatype. SILK conveniently provides a number of pre-written packages known as *essentials*. Navigate to "Included Packages" to view a complete list.
+
+		:::tip External Dependencies
+		Including external dependencies inside the framework is as easy as just dropping it in. Simply drag any [ModuleScript] dependency inside any of your folders containing all of your packages and access it like you would for a regular package.
+		:::
 
 		---
 
@@ -596,10 +636,6 @@ return silk.__initialize()
 ]=]
 --[=[
 		An optional meta function that can be included in any package. The typical usecase for this is when `silk` is needed to perform futher intiailizations inside the package and to provide a simple, non-desrutive way for the package to access the main class.
-
-		:::danger yielding
-		[Package.__initialize] should be treated like a normal metamethod. Therefore, any thread yielding functions inside of the method will result in an error.
-		:::
 
 		@function __initialize
 		@param silk Silk
