@@ -11,15 +11,23 @@ function tween.__initialize(silk)
 end
 
 --[=[
-		Creates a new tween object and plays it. `params` could be a number to directly pass in the tween time.
+		Creates a new tween object and plays it. `params` is passed in as the tween time if it is a `number`. Returns a `wait` method equivalent to `TweenBase.Completed:Wait()` that destroys the tween object.
 		@within Tween
+		@yields
 		@param object Instance
 		@param params number | TweenInfo
-		@param goal { [string]: any }
+		@param goal { [property: string]: endvalue: any }
+		@return { wait: () -> () }
 ]=]
 function tween.play(object, params, goal)
 	params = if typeof(params) == "number" then TweenInfo.new(params) else params
-	return tween.silk.TweenService:Create(object, params, goal):Play().Completed
+	local tweenbase = tween.silk.TweenService:Create(object, params, goal)
+	tweenbase:Play()
+	return {
+		wait = function()
+			tweenbase.Completed:Wait()
+		end,
+	}
 end
 
 return tween

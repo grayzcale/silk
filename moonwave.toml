@@ -31,7 +31,8 @@ classes = [
     'Client',
     'Math',
     'Network',
-    'Ray'
+    'Ray',
+    'Tween',
 ]
 
 [[home.features]]
