@@ -7,15 +7,26 @@ mathP.__index = mathP
 
 function mathP.__initialize(silk)
 	mathP.silk = silk
-	return silk
+	return mathP
 end
 
 --[=[
-		Returns a function with an input parameter, which returns an output within the given bounds.
+		Returns a boolean `true` if `value` is within bounds (inclusive).		
+		@within Math
+		@param value number
+		@param min number
+		@param max number
+		@return boolean
+]=]
+function mathP.isInRange(value, min, max)
+	return if min <= value and value <= max then true else false
+end
+
+--[=[
+		Returns a function with an input parameter, which when executed, returns an output for the given bounds.
 		
 		```lua
-		local f = silk.Packages.Math.mapRange({ 0, 1 }, { 0, 100 })
-		print(f(1)) -- Outputs 100
+		Math.mapRange({ 0, 1 }, { 0, 100 })(0.5) -- 50
 		```
 			
 		@within Math
@@ -30,6 +41,8 @@ function mathP.mapRange(inputBounds, outputBounds)
 		return ((x - inputMin) * (outputMax - outputMin) / (inputMax - inputMin) + outputMin)
 	end
 end
+
+return mathP
 
 --[=[
 		This package contains extended math functions.
