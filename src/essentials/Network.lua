@@ -200,6 +200,18 @@ return network
 		When naming remotes, make sure to avoid having remotes with the same name.
 		:::
 
+		Using this format introduces a limitation however. If your scripts are structured this way, communicators would not be able to access the [Silk] singleton object. To fix this, instead of returning a table directly, wrap it with a function with [Silk] as its first parameter.
+
+		##### Accessing [Silk] inside communicators:
+		```lua
+		return function(silk)
+			return {
+				events = { ... },
+				functions = { ... },
+			}
+		end
+		```
+
 		---
 
 		### Adding Communicators
