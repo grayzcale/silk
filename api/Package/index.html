@@ -162,8 +162,8 @@ Alternatively, when intialization for singleton packages is required during the 
 -- Initialize the package directly
 silk:InitPackage(&#x27;Package&#x27;)
 ```"><link data-rh="true" rel="icon" href="/silk/favicon.png"><link data-rh="true" rel="canonical" href="https://wicked-wlzard.github.io/silk/api/Package"><link data-rh="true" rel="alternate" href="https://wicked-wlzard.github.io/silk/api/Package" hreflang="en"><link data-rh="true" rel="alternate" href="https://wicked-wlzard.github.io/silk/api/Package" hreflang="x-default"><link rel="stylesheet" href="/silk/assets/css/styles.9b3dbd17.css">
-<link rel="preload" href="/silk/assets/js/runtime~main.8ec88d79.js" as="script">
-<link rel="preload" href="/silk/assets/js/main.0ab8fcbf.js" as="script">
+<link rel="preload" href="/silk/assets/js/runtime~main.0d07ca32.js" as="script">
+<link rel="preload" href="/silk/assets/js/main.1bd383ed.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -243,9 +243,9 @@ silk<span class="token punctuation">:</span><span class="token function">AppendP
 <pre class="language-lua"><code class="language-lua"><span class="token comment">-- Initialize the package directly</span>
 silk<span class="token punctuation">:</span><span class="token function">InitPackage</span><span class="token punctuation">(</span><span class="token string">'Package'</span><span class="token punctuation">)</span>
 </code></pre>
-</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="__domain"><code style="text-decoration:none">__domain</code><a href="#__domain" class="hash-link" aria-label="Direct link to __domain" title="Direct link to __domain">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/init.lua#L638"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Package<!-- -->.<!-- -->__domain<!-- -->:<!-- --> </code> <code class="blue_P4bS">string</code></div><div>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="properties">Properties<a href="#properties" class="hash-link" aria-label="Direct link to Properties" title="Direct link to Properties">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="__domain"><code style="text-decoration:none">__domain</code><a href="#__domain" class="hash-link" aria-label="Direct link to __domain" title="Direct link to __domain">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/init.lua#L625"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Package<!-- -->.<!-- -->__domain<!-- -->:<!-- --> </code> <code class="blue_P4bS">string</code></div><div>
 <p>An optional meta attribute used to place domain restriction on a package. The default behaviour is <code>shared</code>. Change the attribute to <code>server</code> or <code>client</code> restrict access.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="__singleton"><code style="text-decoration:none">__singleton</code><a href="#__singleton" class="hash-link" aria-label="Direct link to __singleton" title="Direct link to __singleton">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/init.lua#L649"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Package<!-- -->.<!-- -->__singleton<!-- -->:<!-- --> </code> <code class="blue_P4bS">boolean</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="__singleton"><code style="text-decoration:none">__singleton</code><a href="#__singleton" class="hash-link" aria-label="Direct link to __singleton" title="Direct link to __singleton">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/init.lua#L636"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Package<!-- -->.<!-- -->__singleton<!-- -->:<!-- --> </code> <code class="blue_P4bS">boolean</code></div><div>
 <p>An optional meta attribute that can be included in any package. If set to true, a cached reference to the package is returned whenever the package is referenced.</p>
 <div class="admonition admonition-info alert alert--info">
   <div class="admonition-heading">
@@ -257,7 +257,7 @@ silk<span class="token punctuation">:</span><span class="token function">InitPac
     <p>If <a href="/silk/api/Package#__initialize">Package.__initialize</a> is also provided, the return value recieved after calling this method is cached instead.</p>
   </div>
 </div>
-</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="__initialize"><code style="text-decoration:none">__initialize</code><a href="#__initialize" class="hash-link" aria-label="Direct link to __initialize" title="Direct link to __initialize">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/init.lua#L658"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Package<!-- -->.</code><code class="green_DgR4">__initialize</code><code>(</code><code>silk<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/silk/api/Silk">Silk</a></code><code>) → </code><code class="blue_P4bS">any</code></div><div>
+</div><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="__initialize"><code style="text-decoration:none">__initialize</code><a href="#__initialize" class="hash-link" aria-label="Direct link to __initialize" title="Direct link to __initialize">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/init.lua#L645"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Package<!-- -->.</code><code class="green_DgR4">__initialize</code><code>(</code><code>silk<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="/silk/api/Silk">Silk</a></code><code>) → </code><code class="blue_P4bS">any</code></div><div>
 <p>An optional meta function that can be included in any package. This method should typically be used when further initialization (using <a href="/silk/api/Silk">Silk</a>) is required before returning the package.</p>
 </div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
     &quot;functions&quot;: [
@@ -279,7 +279,7 @@ silk<span class="token punctuation">:</span><span class="token function">InitPac
             ],
             &quot;function_type&quot;: &quot;static&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 658,
+                &quot;line&quot;: 645,
                 &quot;path&quot;: &quot;src/init.lua&quot;
             }
         }
@@ -290,7 +290,7 @@ silk<span class="token punctuation">:</span><span class="token function">InitPac
             &quot;desc&quot;: &quot;An optional meta attribute used to place domain restriction on a package. The default behaviour is `shared`. Change the attribute to `server` or `client` restrict access.&quot;,
             &quot;lua_type&quot;: &quot;string&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 638,
+                &quot;line&quot;: 625,
                 &quot;path&quot;: &quot;src/init.lua&quot;
             }
         },
@@ -299,7 +299,7 @@ silk<span class="token punctuation">:</span><span class="token function">InitPac
             &quot;desc&quot;: &quot;An optional meta attribute that can be included in any package. If set to true, a cached reference to the package is returned whenever the package is referenced.\n\n:::info\nIf [Package.__initialize] is also provided, the return value recieved after calling this method is cached instead.\n:::&quot;,
             &quot;lua_type&quot;: &quot;boolean&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 649,
+                &quot;line&quot;: 636,
                 &quot;path&quot;: &quot;src/init.lua&quot;
             }
         }
@@ -308,11 +308,11 @@ silk<span class="token punctuation">:</span><span class="token function">InitPac
     &quot;name&quot;: &quot;Package&quot;,
     &quot;desc&quot;: &quot;A Package is a normal Roblox [ModuleScript] that can return any datatype. SILK conveniently provides a number of pre-written packages known as *essentials*. Navigate to \&quot;Included Packages\&quot; to view a complete list.\n\n:::tip External Dependencies\nIncluding external dependencies inside the framework is as easy as just dropping it in. Simply drag and drop any [ModuleScript] dependencies inside a folder containing the rest of your packages and access it like you would for a regular package.\n:::\n\n---\n\n### Implementation\n\nSince a Package is just a [ModuleScript], the implementation of one allows for flexibility for developers to adapt the package to their needs. However, the most common implementation of a Package is shown below.\n\n##### Typical implementation of a Package:\n```lua\n--|| Package.lua ||\n\nlocal package = {}\npackage.__index = package\n\n-- Optionally indicate that the package is a singleton\npackage.__singleton = true\n\n-- This is called whenever this package is referenced or once if the package is a singleton\n-- Conveniently access the Silk object\npackage.__initialize = function(silk)\n\n\t-- Store silk within the package for future use\n\tpackage.silk = silk\n\t\n\t-- This is the value that is returned during runtime\n\t-- If the package is a singleton, this return value is cached internally\n\treturn package\nend\n\nfunction package.new()\n\treturn setmetatable({}, package)\nend\n\n-- If a package contains package.__initialize, the method is called and the value that it returns is cached instead during runtime\nreturn package\n```\n\n---\n\n### Management\n\nAll packages should be added in using the [Silk.AppendPackages] method during the *initializer phase*.\n\n:::tip Storing Packages\nWhen storing package, place them in a secure location alongside all your other packages. For example, a folder containing all your *shared* packages.\n:::\n\n##### Adding in packages through the initializer script:\n```lua\n--|| initializer.server.lua ||\n\nsilk:AppendPackages{\n\n\t-- Directory that contains all the packages\n\tsilk.ReplicatedStorage:WaitForChild(&#x27;Packages&#x27;),\n}\n```\n\n---\n\n### Usage\n\n##### Initialize and return contents of package:\n```lua\n-- Access packages immediately after they&#x27;re added\nlocal package = silk.Packages.Package\n```\n\nAlternatively, when intialization for singleton packages is required during the initializer phase, instead of initializing the package directly using `silk.Packages.&lt;Package&gt;`, use [Silk.InitPackage].\n\n##### Intializing a package directly:\n```lua\n-- Initialize the package directly\nsilk:InitPackage(&#x27;Package&#x27;)\n```&quot;,
     &quot;source&quot;: {
-        &quot;line&quot;: 631,
+        &quot;line&quot;: 618,
         &quot;path&quot;: &quot;src/init.lua&quot;
     }
 }</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#__domain" class="table-of-contents__link toc-highlight">__domain</a></li><li><a href="#__singleton" class="table-of-contents__link toc-highlight">__singleton</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#__initialize" class="table-of-contents__link toc-highlight">.__initialize</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 wicked-wlzard. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/silk/assets/js/runtime~main.8ec88d79.js"></script>
-<script src="/silk/assets/js/main.0ab8fcbf.js"></script>
+<script src="/silk/assets/js/runtime~main.0d07ca32.js"></script>
+<script src="/silk/assets/js/main.1bd383ed.js"></script>
 </body>
 </html>

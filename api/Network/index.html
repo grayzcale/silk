@@ -66,6 +66,18 @@ return {
 When naming remotes, make sure to avoid having remotes with the same name.
 :::
 
+Using this format introduces a limitation however. If your scripts are structured this way, communicators would not be able to access the [Silk] singleton object. To fix this, instead of returning a table directly, wrap it with a function with [Silk] as its first parameter.
+
+##### Accessing [Silk] inside communicators:
+```lua
+return function(silk)
+	return {
+		events = { ... },
+		functions = { ... },
+	}
+end
+```
+
 ---
 
 ### Adding Communicators
@@ -158,6 +170,18 @@ return {
 When naming remotes, make sure to avoid having remotes with the same name.
 :::
 
+Using this format introduces a limitation however. If your scripts are structured this way, communicators would not be able to access the [Silk] singleton object. To fix this, instead of returning a table directly, wrap it with a function with [Silk] as its first parameter.
+
+##### Accessing [Silk] inside communicators:
+```lua
+return function(silk)
+	return {
+		events = { ... },
+		functions = { ... },
+	}
+end
+```
+
 ---
 
 ### Adding Communicators
@@ -188,8 +212,8 @@ local network = silk.Packages.Network
 local remote = network.Communicator{ &lt;Communicator&gt;, &lt;Remote&gt; }
 
 ```"><link data-rh="true" rel="icon" href="/silk/favicon.png"><link data-rh="true" rel="canonical" href="https://wicked-wlzard.github.io/silk/api/Network"><link data-rh="true" rel="alternate" href="https://wicked-wlzard.github.io/silk/api/Network" hreflang="en"><link data-rh="true" rel="alternate" href="https://wicked-wlzard.github.io/silk/api/Network" hreflang="x-default"><link rel="stylesheet" href="/silk/assets/css/styles.9b3dbd17.css">
-<link rel="preload" href="/silk/assets/js/runtime~main.8ec88d79.js" as="script">
-<link rel="preload" href="/silk/assets/js/main.0ab8fcbf.js" as="script">
+<link rel="preload" href="/silk/assets/js/runtime~main.0d07ca32.js" as="script">
+<link rel="preload" href="/silk/assets/js/main.1bd383ed.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -269,6 +293,15 @@ local remote = network.Communicator{ &lt;Communicator&gt;, &lt;Remote&gt; }
     <p>When naming remotes, make sure to avoid having remotes with the same name.</p>
   </div>
 </div>
+<p>Using this format introduces a limitation however. If your scripts are structured this way, communicators would not be able to access the <a href="/silk/api/Silk">Silk</a> singleton object. To fix this, instead of returning a table directly, wrap it with a function with <a href="/silk/api/Silk">Silk</a> as its first parameter.</p>
+<h5>Accessing <a href="/silk/api/Silk">Silk</a> inside communicators:</h5>
+<pre class="language-lua"><code class="language-lua"><span class="token keyword">return</span> <span class="token keyword">function</span><span class="token punctuation">(</span>silk<span class="token punctuation">)</span>
+	<span class="token keyword">return</span> <span class="token punctuation">{</span>
+		events <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token punctuation">...</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+		functions <span class="token operator">=</span> <span class="token punctuation">{</span> <span class="token punctuation">...</span> <span class="token punctuation">}</span><span class="token punctuation">,</span>
+	<span class="token punctuation">}</span>
+<span class="token keyword">end</span>
+</code></pre>
 <hr>
 <h3>Adding Communicators</h3>
 <p>Communicators can be added in using the initializer script. Add the communicators in using the <code>Network.AppendCommunicators</code> method.</p>
@@ -290,9 +323,9 @@ silk<span class="token punctuation">.</span>Packages<span class="token punctuati
 <span class="token keyword">local</span> remote <span class="token operator">=</span> network<span class="token punctuation">.</span><span class="token function">Communicator</span><span class="token punctuation">{</span> <span class="token operator">&#x3C;</span>Communicator<span class="token operator">></span><span class="token punctuation">,</span> <span class="token operator">&#x3C;</span>Remote<span class="token operator">></span> <span class="token punctuation">}</span>
 
 </code></pre>
-</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="AppendCommunicators"><code style="text-decoration:none">AppendCommunicators</code><a href="#AppendCommunicators" class="hash-link" aria-label="Direct link to AppendCommunicators" title="Direct link to AppendCommunicators">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/essentials/Network.lua#L36"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Network<!-- -->:</code><code class="green_DgR4">AppendCommunicators</code><code>(</code><code>commDirectories<!-- -->: </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Folder" target="_blank" rel="noopener noreferrer">Folder<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">}</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="AppendCommunicators"><code style="text-decoration:none">AppendCommunicators</code><a href="#AppendCommunicators" class="hash-link" aria-label="Direct link to AppendCommunicators" title="Direct link to AppendCommunicators">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/essentials/Network.lua#L34"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Network<!-- -->:</code><code class="green_DgR4">AppendCommunicators</code><code>(</code><code>commDirectories<!-- -->: </code><code class="purple_ieR2">{</code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Folder" target="_blank" rel="noopener noreferrer">Folder<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code class="purple_ieR2">}</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Use this method to add communicators during the initialization phase.</p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetCommunicator"><code style="text-decoration:none">GetCommunicator</code><a href="#GetCommunicator" class="hash-link" aria-label="Direct link to GetCommunicator" title="Direct link to GetCommunicator">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/essentials/Network.lua#L102"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Network<!-- -->:</code><code class="green_DgR4">GetCommunicator</code><code>(</code><code>...<!-- -->: </code><code class="purple_ieR2">{</code><div class="inset_uKQm"><code>communicator<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>remote<!-- -->: </code><code class="blue_P4bS">string</code></div><code class="purple_ieR2">}</code><code>) → </code><code class="blue_P4bS">NetworkRemote</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="GetCommunicator"><code style="text-decoration:none">GetCommunicator</code><a href="#GetCommunicator" class="hash-link" aria-label="Direct link to GetCommunicator" title="Direct link to GetCommunicator">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/essentials/Network.lua#L104"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>Network<!-- -->:</code><code class="green_DgR4">GetCommunicator</code><code>(</code><code>...<!-- -->: </code><code class="purple_ieR2">{</code><div class="inset_uKQm"><code>communicator<!-- -->: </code><code class="blue_P4bS">string</code><code class="purple_ieR2">,</code></div><div class="inset_uKQm"><code>remote<!-- -->: </code><code class="blue_P4bS">string</code></div><code class="purple_ieR2">}</code><code>) → </code><code class="blue_P4bS">NetworkRemote</code></div><div>
 <p>Using the communicator and remote name, you can obtain access to the remote. If called by the server, a <a href="https://developer.roblox.com/en-us/api-reference/class/RemoteEvent" target="_blank">RemoteEvent</a> or <a href="https://developer.roblox.com/en-us/api-reference/class/RemoteFunction" target="_blank">RemoteFunction</a> is returned directly. For clients however, instead of returning the remote Instance directly, only the remote methods are exposed through a table.</p>
 <p>Communicators can also be obtained by calling the Network package directly with the same parameters.</p>
 <h5>Getting a communicator by calling the package</h5>
@@ -313,7 +346,7 @@ silk<span class="token punctuation">.</span>Packages<span class="token punctuati
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 36,
+                &quot;line&quot;: 34,
                 &quot;path&quot;: &quot;src/essentials/Network.lua&quot;
             }
         },
@@ -335,7 +368,7 @@ silk<span class="token punctuation">.</span>Packages<span class="token punctuati
             ],
             &quot;function_type&quot;: &quot;method&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 102,
+                &quot;line&quot;: 104,
                 &quot;path&quot;: &quot;src/essentials/Network.lua&quot;
             }
         }
@@ -343,13 +376,13 @@ silk<span class="token punctuation">.</span>Packages<span class="token punctuati
     &quot;properties&quot;: [],
     &quot;types&quot;: [],
     &quot;name&quot;: &quot;Network&quot;,
-    &quot;desc&quot;: &quot;A package written for easy server and client communication.\n\n| Package Attribute | Value |\n| --- | --- |\n| __singleton | true |\n| __domain | shared |\n\n---\n\n### Communicators\n\nCommunicators can be used to configure and setup communication between the server and client.\n\nTo create commuincators, insert a new private [Folder] anywhere inside your project and name it \&quot;Communicators.\&quot; To create a new commuincator, insert a new [ModuleScript] inside the folder and name the script, for example \&quot;Coins\&quot; or \&quot;Shop.\&quot; This will be the name of the communicator.\n\n##### Communicator script format:\n```lua\nreturn {\n\t\n\t-- Configuration for RemoteEvents\n\tevents = {\n\n\t\t-- List of events\n\t\tremotes = {\n\t\t\t&#x27;Event&#x27;\n\t\t},\n\n\t\t-- List of actions for the events\n\t\tactions = {\n\n\t\t\t-- An action that is triggered whenever the remote is fired by the client\n\t\t\tEvent = function(client)\n\t\t\t\tprint(`This remote was fired by {client.Name}!`)\n\t\t\tend,\n\t\t},\n\t},\n\t\n\t-- Configuration for RemoteFunctions\n\tfunctions = {\n\t\t\n\t\t-- List of functions\n\t\tremotes = {\n\t\t\t&#x27;Function&#x27;\n\t\t},\n\n\t\t-- List of actions for the functions\n\t\tactions = {\n\n\t\t\t-- An action that is triggered whenever the remote is invoked by the client\n\t\t\tEvent = function(client)\n\t\t\t\treturn `{client.Name} invoked this remote!`\n\t\t\tend,\n\t\t},\n\n\t}\n\t\n}\n```\n\n:::caution Naming Remotes\nWhen naming remotes, make sure to avoid having remotes with the same name.\n:::\n\n---\n\n### Adding Communicators\n\nCommunicators can be added in using the initializer script. Add the communicators in using the `Network.AppendCommunicators` method.\n\n##### Adding communicators during the initialization phase:\n```lua\n-- || initializer.server.lua ||\n\nsilk.Packages.Network:AppendCommunicators{ \n\tsilk.ServerStorage:WaitForChild(&#x27;Communicators&#x27;),\n}\n```\n\n---\n\n### Accessing Communicators\n\nTo access a communicator, use the method [Network.GetCommunicator] or call the package itself.\n\n##### Accessing a communicator\n```lua\n-- Retrieve the Network package\nlocal network = silk.Packages.Network\n\n-- Similar to using Network.GetCommunicator\nlocal remote = network.Communicator{ &lt;Communicator&gt;, &lt;Remote&gt; }\n\n```&quot;,
+    &quot;desc&quot;: &quot;A package written for easy server and client communication.\n\n| Package Attribute | Value |\n| --- | --- |\n| __singleton | true |\n| __domain | shared |\n\n---\n\n### Communicators\n\nCommunicators can be used to configure and setup communication between the server and client.\n\nTo create commuincators, insert a new private [Folder] anywhere inside your project and name it \&quot;Communicators.\&quot; To create a new commuincator, insert a new [ModuleScript] inside the folder and name the script, for example \&quot;Coins\&quot; or \&quot;Shop.\&quot; This will be the name of the communicator.\n\n##### Communicator script format:\n```lua\nreturn {\n\t\n\t-- Configuration for RemoteEvents\n\tevents = {\n\n\t\t-- List of events\n\t\tremotes = {\n\t\t\t&#x27;Event&#x27;\n\t\t},\n\n\t\t-- List of actions for the events\n\t\tactions = {\n\n\t\t\t-- An action that is triggered whenever the remote is fired by the client\n\t\t\tEvent = function(client)\n\t\t\t\tprint(`This remote was fired by {client.Name}!`)\n\t\t\tend,\n\t\t},\n\t},\n\t\n\t-- Configuration for RemoteFunctions\n\tfunctions = {\n\t\t\n\t\t-- List of functions\n\t\tremotes = {\n\t\t\t&#x27;Function&#x27;\n\t\t},\n\n\t\t-- List of actions for the functions\n\t\tactions = {\n\n\t\t\t-- An action that is triggered whenever the remote is invoked by the client\n\t\t\tEvent = function(client)\n\t\t\t\treturn `{client.Name} invoked this remote!`\n\t\t\tend,\n\t\t},\n\n\t}\n\t\n}\n```\n\n:::caution Naming Remotes\nWhen naming remotes, make sure to avoid having remotes with the same name.\n:::\n\nUsing this format introduces a limitation however. If your scripts are structured this way, communicators would not be able to access the [Silk] singleton object. To fix this, instead of returning a table directly, wrap it with a function with [Silk] as its first parameter.\n\n##### Accessing [Silk] inside communicators:\n```lua\nreturn function(silk)\n\treturn {\n\t\tevents = { ... },\n\t\tfunctions = { ... },\n\t}\nend\n```\n\n---\n\n### Adding Communicators\n\nCommunicators can be added in using the initializer script. Add the communicators in using the `Network.AppendCommunicators` method.\n\n##### Adding communicators during the initialization phase:\n```lua\n-- || initializer.server.lua ||\n\nsilk.Packages.Network:AppendCommunicators{ \n\tsilk.ServerStorage:WaitForChild(&#x27;Communicators&#x27;),\n}\n```\n\n---\n\n### Accessing Communicators\n\nTo access a communicator, use the method [Network.GetCommunicator] or call the package itself.\n\n##### Accessing a communicator\n```lua\n-- Retrieve the Network package\nlocal network = silk.Packages.Network\n\n-- Similar to using Network.GetCommunicator\nlocal remote = network.Communicator{ &lt;Communicator&gt;, &lt;Remote&gt; }\n\n```&quot;,
     &quot;source&quot;: {
-        &quot;line&quot;: 236,
+        &quot;line&quot;: 248,
         &quot;path&quot;: &quot;src/essentials/Network.lua&quot;
     }
 }</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#AppendCommunicators" class="table-of-contents__link toc-highlight">:AppendCommunicators</a></li><li><a href="#GetCommunicator" class="table-of-contents__link toc-highlight">:GetCommunicator</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 wicked-wlzard. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/silk/assets/js/runtime~main.8ec88d79.js"></script>
-<script src="/silk/assets/js/main.0ab8fcbf.js"></script>
+<script src="/silk/assets/js/runtime~main.0d07ca32.js"></script>
+<script src="/silk/assets/js/main.1bd383ed.js"></script>
 </body>
 </html>
