@@ -1,4 +1,4 @@
--- Package: Network.luau
+-- Package: Network.lua
 -- Written for SILK Game Framework by @Wicked_Wlzard
 -- API: https://wicked-wlzard.github.io/silk/
 

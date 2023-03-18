@@ -1,4 +1,4 @@
--- Package: Client.luau
+-- Package: Client.lua
 -- Written for SILK Game Framework by @Wicked_Wlzard
 -- API: https://wicked-wlzard.github.io/silk/
 
@@ -71,7 +71,7 @@ end
 return client
 
 --[=[
-		This package contains methods and attributes associated with the core functionality of the client.
+		This package contains methods and attributes involved with pure client-sided components.
 		
 		| Package Attribute | Value |
 		| --- | --- |
