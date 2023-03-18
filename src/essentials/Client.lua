@@ -53,7 +53,7 @@ end
 		@param waitFor boolean
 		@return Model, Humanoid, Part | nil
 ]=]
-function client:Character(waitFor)
+function client:GetCharacter(waitFor)
 	local cli = self._client
 	if cli.Character and cli.Character.Parent ~= nil then
 		return cli.Character, cli.Character:WaitForChild("Humanoid"), cli.Character:WaitForChild("HumanoidRootPart")
