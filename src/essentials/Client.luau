@@ -1,4 +1,4 @@
--- Package: Client.lua
+-- Package: Client.luau
 -- Written for SILK Game Framework by @Wicked_Wlzard
 -- API: https://wicked-wlzard.github.io/silk/
 
