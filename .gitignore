@@ -1,4 +1,5 @@
 .vscode
+sourcemap.json
 node_modules
 build
 *.sublime-workspace
