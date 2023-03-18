@@ -1,13 +1,13 @@
--- Package: Client.lua 
+-- Package: Client.lua
 -- Written for SILK Game Framework by @Wicked_Wlzard
 -- API: https://wicked-wlzard.github.io/silk/
 
-local client = { __singleton = true, __domain = 'local' }
+local client = { __singleton = true, __domain = "local" }
 
 client.__index = function(self, index)
-	if index == 'Client' then
+	if index == "Client" then
 		return self._client
-	elseif index == 'PlayerGui' then
+	elseif index == "PlayerGui" then
 		return self._playerGui
 	end
 	return client[index]
@@ -18,7 +18,7 @@ function client.__initialize(silk)
 	client.silk = silk
 	return setmetatable({
 		_client = silk.Players.LocalPlayer,
-		_playerGui = silk.Players.LocalPlayer:WaitForChild('PlayerGui'),
+		_playerGui = silk.Players.LocalPlayer:WaitForChild("PlayerGui"),
 	}, client)
 end
 
@@ -28,11 +28,17 @@ end
 		@param key string
 ]=]
 function client:BindMouseLock(key)
-	local shiftLockKey = self.silk.waitFor{ self._client.PlayerScripts, 'PlayerModule', 'CameraModule', 'MouseLockController', 'BoundKeys' }
+	local shiftLockKey = self.silk.waitFor({
+		self._client.PlayerScripts,
+		"PlayerModule",
+		"CameraModule",
+		"MouseLockController",
+		"BoundKeys",
+	})
 	if not shiftLockKey then
-		
 		-- Create new StringValue to represent the new keybind if it doesn't exist
-		self.silk.new('StringValue', self._client.PlayerScripts.PlayerModule.CameraModule.MouseLockController)
+		self.silk
+			.new("StringValue", self._client.PlayerScripts.PlayerModule.CameraModule.MouseLockController)
 			.Name("BoundKeys")
 			.Value(key)
 		return
@@ -50,12 +56,16 @@ end
 function client:Character(waitFor)
 	local cli = self._client
 	if cli.Character and cli.Character.Parent ~= nil then
-		return cli.Character, cli.Character:WaitForChild('Humanoid'), cli.Character:WaitForChild('HumanoidRootPart')
+		return cli.Character, cli.Character:WaitForChild("Humanoid"), cli.Character:WaitForChild("HumanoidRootPart")
 	end
-	
+
 	-- Return if yielding for character not specified
-	if not waitFor then return end
-	return cli.CharacterAdded:Wait(), cli.Character:WaitForChild('Humanoid'), cli.Character:WaitForChild('HumanoidRootPart')
+	if not waitFor then
+		return
+	end
+	return cli.CharacterAdded:Wait(),
+		cli.Character:WaitForChild("Humanoid"),
+		cli.Character:WaitForChild("HumanoidRootPart")
 end
 
 return client

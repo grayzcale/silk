@@ -6,31 +6,26 @@ local silk = {}
 
 silk.__index = function(self, index)
 	if self._services[index] then
-
 		-- Return service from cache
 		return self:GetService(index)
-
-	elseif rawget(self, '_containers') and self._containers[string.sub(index, 4)] then
-
+	elseif rawget(self, "_containers") and self._containers[string.sub(index, 4)] then
 		-- Return object-return function for container
 		return function(_, ...)
 			return self._containers[string.sub(index, 4)]:WaitForChild(...)
 		end
-
 	end
 	return silk[index]
 end
 
 silk.__initialize = function()
-
 	local self = setmetatable({
 		_networkActions = {},
 		_services = {},
 		_initialized = false,
 	}, silk)
 
-	-- Initalize cache table for the listed services 
-	for _, service in ipairs(require(script:WaitForChild('services'))) do
+	-- Initalize cache table for the listed services
+	for _, service in ipairs(require(script:WaitForChild("services"))) do
 		self._services[service] = 0
 	end
 
@@ -38,7 +33,6 @@ silk.__initialize = function()
 
 	-- Handle server-sided initialization
 	if self:IsServer() then
-
 		-- Create a new action to provide initalization data to client
 		self._networkActions.initializeClient = function()
 			return {
@@ -49,9 +43,8 @@ silk.__initialize = function()
 		end
 
 		-- Create a new RemoteFunction to execute network actions
-		self._networkRemote = self.new('RemoteFunction', self.ReplicatedStorage).Name('__network__')()
+		self._networkRemote = self.new("RemoteFunction", self.ReplicatedStorage).Name("__network__")()
 		self._networkRemote.OnServerInvoke = function(client, action, ...)
-
 			-- Make sure server is loaded before running any actions
 			while not self._initialized do
 				task.wait()
@@ -61,9 +54,8 @@ silk.__initialize = function()
 		end
 
 		-- Create a new RemoteEvent for extended functionality
-		self._eventRemote = self.new('RemoteEvent', self.ReplicatedStorage).Name('__event__')()
+		self._eventRemote = self.new("RemoteEvent", self.ReplicatedStorage).Name("__event__")()
 		self._eventRemote.OnServerEvent:Connect(function(client, action, ...)
-
 			-- Make sure server is loaded before running any actions
 			while not self._initialized do
 				task.wait()
@@ -71,15 +63,13 @@ silk.__initialize = function()
 
 			self._networkActions[action](client, ...)
 		end)
-
 	else
-
 		-- Wait for, and invoke, server for client initialization configuration
-		self._networkRemote = self.ReplicatedStorage:WaitForChild('__network__')
-		local config = self._networkRemote:InvokeServer('initializeClient')
+		self._networkRemote = self.ReplicatedStorage:WaitForChild("__network__")
+		local config = self._networkRemote:InvokeServer("initializeClient")
 
 		-- Wait for network RemoteEvent and create new connection
-		self._eventRemote = self.ReplicatedStorage:WaitForChild('__event__')
+		self._eventRemote = self.ReplicatedStorage:WaitForChild("__event__")
 		self._eventRemote.OnClientEvent:Connect(function(action, ...)
 			self._networkActions[action](...)
 		end)
@@ -88,7 +78,6 @@ silk.__initialize = function()
 		self:AppendPackages(config.packageDirectories)
 		self:AppendContainers(config.containers)
 		self:AppendClasses(config.classes)
-
 	end
 
 	return self
@@ -131,15 +120,16 @@ end
 		@return SilkObject
 ]=]
 function silk.new(object, parent)
-
 	-- Instantitate new object and set parent
-	object = if typeof(object) == 'string' then Instance.new(object) else object
+	object = if typeof(object) == "string" then Instance.new(object) else object
 	object.Parent = parent
 
 	return setmetatable({ _instance = object }, {
 
 		-- Return object Instance when metatable is called
-		__call = function(self) return self._instance end,
+		__call = function(self)
+			return self._instance
+		end,
 
 		-- Return a function to set property
 		__index = function(self, index)
@@ -148,7 +138,6 @@ function silk.new(object, parent)
 				return self
 			end
 		end,
-
 	})
 end
 
@@ -174,7 +163,7 @@ end
 ]=]
 function silk.waitFor(objects, timeout)
 	for _, object in ipairs(objects) do
-		if typeof(objects) == 'table' then
+		if typeof(objects) == "table" then
 			objects = objects[1]
 			continue
 		end
@@ -258,13 +247,13 @@ end
 		@param classdirectories {Folder}
 ]=]
 function silk:AppendClasses(classdirectories)
-
 	-- Classes handler
-	self.Classes = self.Classes or setmetatable({}, {
-		__index = function(_, ...)
-			return self:InitClass(...)
-		end,
-	})
+	self.Classes = self.Classes
+		or setmetatable({}, {
+			__index = function(_, ...)
+				return self:InitClass(...)
+			end,
+		})
 
 	-- Stop execution for client
 	if not self:IsServer() then
@@ -287,7 +276,6 @@ end
 		@param containerDirectories {[string]: Folder}
 ]=]
 function silk:AppendContainers(containerDirectories)
-
 	-- Stop execution for client
 	if not self:IsServer() then
 		self._containers = containerDirectories
@@ -307,13 +295,13 @@ end
 		@param packageDirectories {Folder}
 ]=]
 function silk:AppendPackages(packageDirectories)
-
 	-- Packages handler
-	self.Packages = self.Packages or setmetatable({}, {
-		__index = function(_, ...)
-			return self:InitPackage(...)
-		end,
-	})
+	self.Packages = self.Packages
+		or setmetatable({}, {
+			__index = function(_, ...)
+				return self:InitPackage(...)
+			end,
+		})
 
 	self._packages = self._packages or {}
 	self._packageDirectories = self._packageDirectories or {}
@@ -325,7 +313,6 @@ function silk:AppendPackages(packageDirectories)
 		end
 		table.insert(self._packageDirectories, directory)
 	end
-
 end
 
 --[=[
@@ -355,7 +342,7 @@ end
 		@return Instance
 ]=]
 function silk:GetService(service)
-	if typeof(self._services[service]) == 'number' then
+	if typeof(self._services[service]) == "number" then
 		self._services[service] = game:GetService(service)
 	end
 	return self._services[service]
@@ -369,7 +356,6 @@ end
 ]=]
 -- Initialize class
 function silk:InitClass(class)
-
 	-- Make sure class exists
 	if not self._classes[class] then
 		self:Declare(error, `Class Error: Class "{class}" does not exist`)
@@ -377,7 +363,7 @@ function silk:InitClass(class)
 
 	-- Prepare and return class
 	class = require(self._classes[class])
-	if typeof(class) == 'table' and class.__initialize then
+	if typeof(class) == "table" and class.__initialize then
 		class = class.__initialize(self)
 	end
 
@@ -396,29 +382,26 @@ end
 		@return ...any
 ]=]
 function silk:InitPackage(package)
-
 	-- Make sure package exists
 	if not self._packages[package] then
 		self:Declare(error, `Package Error: Package "{package}" does not exist`)
 	end
 
 	-- Verify if the package exists in cache
-	if typeof(self._packages[package]) == 'Instance' then
-
+	if typeof(self._packages[package]) == "Instance" then
 		local loadedPackage = require(self._packages[package])
 
 		-- Check if package is a singleton and execute package __initialize method
-		if typeof(loadedPackage) == 'table' then
-			
+		if typeof(loadedPackage) == "table" then
 			-- Check domain restrictions
 			local domain = loadedPackage.__domain
 			if domain then
-				if (domain == 'server' and not self:IsServer()) or (domain == 'client' and self:IsServer()) then
+				if (domain == "server" and not self:IsServer()) or (domain == "client" and self:IsServer()) then
 					self:Declare(error, `Package Error: Access to "{package}" is restricted in this domain`)
 				end
 			end
-			
-			local singleton = loadedPackage.__singleton			
+
+			local singleton = loadedPackage.__singleton
 			if loadedPackage.__initialize then
 				loadedPackage = loadedPackage.__initialize(self)
 			end
@@ -450,7 +433,9 @@ end
 		@return Silk
 ]=]
 function silk:Wait()
-	if self._initialized then return self end
+	if self._initialized then
+		return self
+	end
 	self._threadsQueue = self._threadsQueue or {}
 	table.insert(self._threadsQueue, coroutine.running())
 	coroutine.yield()
@@ -480,7 +465,9 @@ end
 ]=]
 function silk:Weave()
 	self._initialized = true
-	if not self._threadsQueue then return end
+	if not self._threadsQueue then
+		return
+	end
 
 	local threads = self._threadsQueue
 	self._threadsQueue = nil
