@@ -4,6 +4,7 @@ apiCategories = [
     'utility',
     'network',
     'initializer',
+    'instantiater',
 ]
 
 [docusaurus]
@@ -28,8 +29,9 @@ section = 'Included Packages'
 collapsed = false
 classes = [
     'Client',
-    'Network',
     'Math',
+    'Network',
+    'Ray'
 ]
 
 [[home.features]]
