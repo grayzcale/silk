@@ -11,7 +11,7 @@ function tween.__initialize(silk)
 end
 
 --[=[
-		Creates a new tween object and plays it. `params` is passed in as the tween time if it is a `number`. Returns a `wait` method equivalent to `TweenBase.Completed:Wait()` that destroys the tween object.
+		Creates a new tween object and plays it. `params` is passed in as the tween time if it is a `number`. Returns a `wait` method that is equivalent to `TweenBase.Completed:Wait()`.
 		@within Tween
 		@yields
 		@param object Instance
