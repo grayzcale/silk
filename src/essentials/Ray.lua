@@ -67,8 +67,8 @@ function ray:Visualize(args)
 	-- Create visualizer part
 	local ray = self.silk
 		.new("Part", workspace)
-		.Name('RayVisualizer')
-		.CFrame(CFrame.lookAt(origin, origin + direction) * CFrame.new(0, 0, - length / 2))
+		.Name("RayVisualizer")
+		.CFrame(CFrame.lookAt(origin, origin + direction) * CFrame.new(0, 0, -length / 2))
 		.Size(Vector3.new(0.1, 0.1, length))
 		.Transparency(0.3)
 		.CanCollide(false)
@@ -106,4 +106,3 @@ return ray
 		@type Ray Ray
 		@within Ray
 ]=]
-
