@@ -17,13 +17,14 @@ end
 		@param object Instance
 		@param params number | TweenInfo
 		@param goal { [property: string]: endvalue: any }
-		@return { wait: () -> () }
+		@return { Tween: TweenBase, wait: () -> () }
 ]=]
 function tween.play(object, params, goal)
 	params = if typeof(params) == "number" then TweenInfo.new(params) else params
 	local tweenbase = tween.silk.TweenService:Create(object, params, goal)
 	tweenbase:Play()
 	return {
+		Tween = tweenbase,
 		wait = function()
 			tweenbase.Completed:Wait()
 		end,
