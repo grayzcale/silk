@@ -396,7 +396,7 @@ function silk:InitPackage(package)
 			-- Check domain restrictions
 			local domain = loadedPackage.__domain
 			if domain then
-				if (domain == "server" and not self:IsServer()) or (domain == "client" and self:IsServer()) then
+				if (domain == "server" and not self:IsServer()) or (domain == "local" and self:IsServer()) then
 					self:Declare(error, `Package Error: Access to "{package}" is restricted in this domain`)
 				end
 			end
@@ -617,7 +617,7 @@ return silk.__initialize()
 ]=]
 
 --[=[
-		An optional meta attribute used to place domain restriction on a package. The default behaviour is `shared`. Change the attribute to `server` or `client` restrict access.
+		An optional meta attribute used to place domain restriction on a package. The default behaviour is `shared`. Change the attribute to `server` or `local` to restrict access.
 
 		@prop __domain string
 		@within Package
