@@ -24,7 +24,6 @@ function tween.play(object, params, goal)
 	local tweenbase = tween.silk.TweenService:Create(object, params, goal)
 	tweenbase:Play()
 	return {
-		Tween = tweenbase,
 		wait = function()
 			tweenbase.Completed:Wait()
 		end,
