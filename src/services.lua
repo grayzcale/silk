@@ -91,5 +91,6 @@ return {
 	"StarterPack",
 	"StarterPlayer",
 	"Stats",
+	"TeleportService",
 	"TweenService",
 }
