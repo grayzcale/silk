@@ -2,7 +2,9 @@
 -- Written by: @Wicked_Wlzard
 -- https://wicked-wlzard.github.io/silk/
 
-local silk = {}
+local silk = {
+	__version = "v0.1.0-rc.1",
+}
 
 silk.__index = function(self, index)
 	if self._services[index] then
