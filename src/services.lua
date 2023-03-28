@@ -93,4 +93,5 @@ return {
 	"Stats",
 	"TeleportService",
 	"TweenService",
+	"UserInputService",
 }
