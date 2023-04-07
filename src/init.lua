@@ -328,7 +328,17 @@ function silk:Declare(callback, msg)
 end
 
 --[=[
-		Returns the [Folder] associated with the container.
+		Returns the [ModuleScript] instace associated with the class.
+		@within Silk
+		@param class string
+		@return ModuleScript
+]=]
+function silk:GetClass(class)
+	return self._classes[class]
+end
+
+--[=[
+		Returns the [Folder] instance associated with the container.
 		@within Silk
 		@param container string
 		@return Folder
