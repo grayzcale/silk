@@ -265,7 +265,7 @@ function silk:AppendClasses(classdirectories)
 
 	self._classes = self._classes or {}
 	for _, directory in pairs(classdirectories) do
-		for _, class in ipairs(directory:GetChildren()) do
+		for _, class in ipairs(directory:GetDescendants()) do
 			self._classes[class.Name] = class
 		end
 	end
