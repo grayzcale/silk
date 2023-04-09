@@ -52,7 +52,7 @@ end
 ]=]
 function client:DisableControls()
 	if not self.controls then
-		self.controls = require(self.client.PlayerScripts.PlayerModule):GetControls()
+		self.controls = require(self._client.PlayerScripts.PlayerModule):GetControls()
 	end
 	self.controls:Disable()
 end
