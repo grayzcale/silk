@@ -47,6 +47,28 @@ function client:BindMouseLock(key)
 end
 
 --[=[
+		Disable control for the client character.
+		@within Client
+]=]
+function client:DisableControls()
+	if not self.controls then
+		self.controls = require(self.client.PlayerScripts.PlayerModule)):GetControls()
+	end
+	self.controls:Disable()
+end
+
+--[=[
+		Re-enable control for the client character.
+		@within Client
+]=]
+function client:EnableControls()
+	if not self.controls then
+		return
+	end
+	self.controls:Enable()
+end
+
+--[=[
 		Performs appropriate checks to see if the client character exists and if it does, returns the character `Model`, `Humanoid`, and the `HumanoidRootPart`. Returns `nil` if the character doesn't exist and `waitFor` isn't set to `true`.
 		@within Client
 		@yields
