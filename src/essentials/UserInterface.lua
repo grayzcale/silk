@@ -6,6 +6,13 @@ function userInterface.__initialize(silk)
 	return userInterface
 end
 
+--[=[
+		Perform a typewrite effect on any [GuiObject] with the `Text` property. This method overrides the previous effect if active.
+		@within UserInterface
+		@param instance GuiObject
+		@param text string
+		@param step number?
+]=]
 function userInterface.typeWrite(instance, text, step)
 	if instance:GetAttribute("TypeWriting", true) then
 		instance:SetAttribute("TypeWriting", nil)
