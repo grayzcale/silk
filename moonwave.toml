@@ -33,6 +33,7 @@ classes = [
     'Network',
     'Ray',
     'Tween',
+    'UserInterface',
 ]
 
 [[home.features]]
