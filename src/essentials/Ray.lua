@@ -4,7 +4,14 @@
 
 local ray = {}
 
-ray.__index = ray
+ray.__index = function(self, index)
+	if index == "Origin" then
+		return self._origin
+	elseif index == "Direction" then
+		return self._direction
+	end
+	return ray[index]
+end
 
 ray.__newindex = function(self, index, value)
 	self._parameters[index] = value
