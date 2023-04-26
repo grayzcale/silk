@@ -101,6 +101,19 @@ return ray
 ]=]
 
 --[=[
+		Access the Vector3 direction of the ray.
+		@prop Direction Vector3
+		@within Ray
+]=]
+
+
+--[=[
+		Access the Vector3 origin of the ray.
+		@prop Origin Vector3
+		@within Ray
+]=]
+
+--[=[
 		To set any of the `RaycastParams`, access it directly from the object and set the value.
 		
 		```lua
