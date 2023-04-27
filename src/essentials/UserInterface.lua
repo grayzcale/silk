@@ -1,3 +1,7 @@
+-- Package: UserInterface.lua
+-- Written for SILK Game Framework by @Wicked_Wlzard
+-- API: https://wicked-wlzard.github.io/silk/
+
 local userInterface = { __domain = "local" }
 userInterface.__index = userInterface
 
