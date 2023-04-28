@@ -14,8 +14,8 @@
 | --- | --- |
 | __singleton | false |
 | __domain | local |"><link data-rh="true" rel="icon" href="/silk/favicon.png"><link data-rh="true" rel="canonical" href="https://wicked-wlzard.github.io/silk/api/UserInterface"><link data-rh="true" rel="alternate" href="https://wicked-wlzard.github.io/silk/api/UserInterface" hreflang="en"><link data-rh="true" rel="alternate" href="https://wicked-wlzard.github.io/silk/api/UserInterface" hreflang="x-default"><link rel="stylesheet" href="/silk/assets/css/styles.9b3dbd17.css">
-<link rel="preload" href="/silk/assets/js/runtime~main.6316043b.js" as="script">
-<link rel="preload" href="/silk/assets/js/main.023cb3e7.js" as="script">
+<link rel="preload" href="/silk/assets/js/runtime~main.b88ae8b0.js" as="script">
+<link rel="preload" href="/silk/assets/js/main.2905354a.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -39,10 +39,39 @@
     </tr>
   </tbody>
 </table>
-</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="typeWrite"><code style="text-decoration:none">typeWrite</code><a href="#typeWrite" class="hash-link" aria-label="Direct link to typeWrite" title="Direct link to typeWrite">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/essentials/UserInterface.lua#L16"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>UserInterface<!-- -->.</code><code class="green_DgR4">typeWrite</code><code>(</code><div class="inset_uKQm"><div><code>instance<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/GuiObject" target="_blank" rel="noopener noreferrer">GuiObject<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code></div><div><code>text<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code></div><div><code>step<!-- -->: </code><code class="blue_P4bS">number?</code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+</div></header><h2 class="anchor anchorWithStickyNavbar_LWe7" id="functions">Functions<a href="#functions" class="hash-link" aria-label="Direct link to Functions" title="Direct link to Functions">​</a></h2><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="constrainText"><code style="text-decoration:none">constrainText</code><a href="#constrainText" class="hash-link" aria-label="Direct link to constrainText" title="Direct link to constrainText">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/essentials/UserInterface.lua#L20"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>UserInterface<!-- -->.</code><code class="green_DgR4">constrainText</code><code>(</code><div class="inset_uKQm"><div><code>object<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/GuiObject" target="_blank" rel="noopener noreferrer">GuiObject<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code></div><div><code>idealSize<!-- -->: </code><code class="blue_P4bS">number</code><code>,</code></div><div><code>anchor<!-- -->: </code><code class="blue_P4bS">number</code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+<p>Dynamically constrain text based on the <code>AbsoluteSize.Y</code> of any <a href="https://developer.roblox.com/en-us/api-reference/class/GuiObject" target="_blank">GuiObject</a> with the <code>Text</code> property.</p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="typeWrite"><code style="text-decoration:none">typeWrite</code><a href="#typeWrite" class="hash-link" aria-label="Direct link to typeWrite" title="Direct link to typeWrite">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/wicked-wlzard/silk/blob/master/src/essentials/UserInterface.lua#L34"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>UserInterface<!-- -->.</code><code class="green_DgR4">typeWrite</code><code>(</code><div class="inset_uKQm"><div><code>instance<!-- -->: </code><code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/GuiObject" target="_blank" rel="noopener noreferrer">GuiObject<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code><code>,</code></div><div><code>text<!-- -->: </code><code class="blue_P4bS">string</code><code>,</code></div><div><code>step<!-- -->: </code><code class="blue_P4bS">number?</code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Perform a typewrite effect on any <a href="https://developer.roblox.com/en-us/api-reference/class/GuiObject" target="_blank">GuiObject</a> with the <code>Text</code> property. This method overrides the previous effect if active.</p>
 </div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
     &quot;functions&quot;: [
+        {
+            &quot;name&quot;: &quot;constrainText&quot;,
+            &quot;desc&quot;: &quot;Dynamically constrain text based on the `AbsoluteSize.Y` of any [GuiObject] with the `Text` property.&quot;,
+            &quot;params&quot;: [
+                {
+                    &quot;name&quot;: &quot;object&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;GuiObject&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;idealSize&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                },
+                {
+                    &quot;name&quot;: &quot;anchor&quot;,
+                    &quot;desc&quot;: &quot;&quot;,
+                    &quot;lua_type&quot;: &quot;number&quot;
+                }
+            ],
+            &quot;returns&quot;: [],
+            &quot;function_type&quot;: &quot;static&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 20,
+                &quot;path&quot;: &quot;src/essentials/UserInterface.lua&quot;
+            }
+        },
         {
             &quot;name&quot;: &quot;typeWrite&quot;,
             &quot;desc&quot;: &quot;Perform a typewrite effect on any [GuiObject] with the `Text` property. This method overrides the previous effect if active.&quot;,
@@ -66,7 +95,7 @@
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;static&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 16,
+                &quot;line&quot;: 34,
                 &quot;path&quot;: &quot;src/essentials/UserInterface.lua&quot;
             }
         }
@@ -76,11 +105,11 @@
     &quot;name&quot;: &quot;UserInterface&quot;,
     &quot;desc&quot;: &quot;UI related methods.\n\n| Package Attribute | Value |\n| --- | --- |\n| __singleton | false |\n| __domain | local |&quot;,
     &quot;source&quot;: {
-        &quot;line&quot;: 58,
+        &quot;line&quot;: 76,
         &quot;path&quot;: &quot;src/essentials/UserInterface.lua&quot;
     }
-}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#typeWrite" class="table-of-contents__link toc-highlight">.typeWrite</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 wicked-wlzard. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/silk/assets/js/runtime~main.6316043b.js"></script>
-<script src="/silk/assets/js/main.023cb3e7.js"></script>
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#constrainText" class="table-of-contents__link toc-highlight">.constrainText</a></li><li><a href="#typeWrite" class="table-of-contents__link toc-highlight">.typeWrite</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 wicked-wlzard. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/silk/assets/js/runtime~main.b88ae8b0.js"></script>
+<script src="/silk/assets/js/main.2905354a.js"></script>
 </body>
 </html>
