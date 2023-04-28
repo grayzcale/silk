@@ -11,7 +11,7 @@ function userInterface.__initialize(silk)
 end
 
 --[=[
-		Dynamically constrain text based on the size of any [GuiObject] with the `Text` property.
+		Dynamically constrain text based on the `AbsoluteSize.Y` of any [GuiObject] with the `Text` property.
 		@within UserInterface
 		@param object GuiObject
 		@param idealSize number
