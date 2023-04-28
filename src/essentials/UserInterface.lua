@@ -18,7 +18,7 @@ end
 		@param anchor number
 ]=]
 function userInterface.constrainText(object, idealSize, anchor)
-	object:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
+	object:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
 		object.TextSize = object.AbsoluteSize.Y * idealSize / anchor
 	end)
 	object.TextSize = object.AbsoluteSize.Y * idealSize / anchor
