@@ -11,6 +11,20 @@ function userInterface.__initialize(silk)
 end
 
 --[=[
+		Dynamically constrain text based on the size of any [GuiObject] with the `Text` property.
+		@within UserInterface
+		@param object GuiObject
+		@param idealSize number
+		@param anchor number
+]=]
+function userInterface.constrainText(object, idealSize, anchor)
+	object:GetPropertyChangedSignal('AbsoluteSize'):Connect(function()
+		object.TextSize = object.AbsoluteSize.Y * idealSize / anchor
+	end)
+	object.TextSize = object.AbsoluteSize.Y * idealSize / anchor
+end
+
+--[=[
 		Perform a typewrite effect on any [GuiObject] with the `Text` property. This method overrides the previous effect if active.
 		@within UserInterface
 		@param instance GuiObject
