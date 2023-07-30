@@ -3,7 +3,7 @@
 </div>
 
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/grayzcale/silk/release.yml?label=release&style=plastic)
-![Website](https://img.shields.io/website?down_message=failing&label=docs&style=plastic&up_message=passing&url=https%3A%2F%2Fwicked-wlzard.github.io%2Fsilk%2F)
+![Website](https://img.shields.io/website?down_message=failing&label=docs&style=plastic&up_message=passing&url=https%3A%2F%2Fgrayzcale.github.io%2Fsilk%2F)
 
 SILK is an intricate game development framework designed to streamline the overall process of game development. With its simple yet effective stage-execution model, the SILK lifecycle enables developers to effectively manage large pieces of code with ease, keeping everything well-organized. This framework is highly versatile and flexible—adaptable to all development workflows and preferences. With the introduction of *packages*, developers are given the ability to develop code in a non-destructive manner, quickly producing more reliable and predictable results. The framework also includes pre-written packages involving the standard core functionalities for any typical project.
 
