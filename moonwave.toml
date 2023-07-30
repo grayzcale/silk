@@ -16,7 +16,7 @@ enabled = true
 # includeReadme = true
 
 [[navbar.items]]
-href = 'https://github.com/wicked-wlzard/silk/releases'
+href = 'https://github.com/grayzcale/silk/releases'
 label = 'Releases'
 
 [[classOrder]]
